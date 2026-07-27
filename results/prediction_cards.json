@@ -1,0 +1,272 @@
+[
+  {
+    "question_id": "paper1-q_011",
+    "question": "To what extent have actual JWST observations validated pre-launch predictions that aerosol-free TRAPPIST-1 CO2 atmospheres would be detectable within ten NIRSpec Prism transits?",
+    "subfield": "exoplanet_atmospheres",
+    "source": "paper1_evidence_graph",
+    "predicted_p_attention": 0.0027876903653833583,
+    "observed_addressed": false,
+    "observed_status": "not_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "txt_specificity",
+        "contribution": 1.9948163993491657
+      },
+      {
+        "feature": "fal_named_dataset",
+        "contribution": 1.792913669466859
+      },
+      {
+        "feature": "ev_has_native_record",
+        "contribution": 0.6936902524469718
+      },
+      {
+        "feature": "txt_n_words",
+        "contribution": 0.33290980000833054
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "tra_mentions_future_facility",
+        "contribution": -3.7942168587659664
+      },
+      {
+        "feature": "tra_needs_new_instrument",
+        "contribution": -2.973252697911769
+      },
+      {
+        "feature": "txt_n_entities",
+        "contribution": -1.4059697096592352
+      },
+      {
+        "feature": "fal_quant_threshold",
+        "contribution": -1.2038655054026766
+      }
+    ]
+  },
+  {
+    "question_id": "gravitational_waves-2020-024",
+    "question": "Could the current models of binary stellar evolution be fundamentally flawed when interpreted through the lens of gravitational-wave catalog analysis?",
+    "subfield": "gravitational_waves",
+    "source": "control",
+    "predicted_p_attention": 0.013244315383288836,
+    "observed_addressed": false,
+    "observed_status": "not_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "ev_has_native_record",
+        "contribution": 0.6936902524469718
+      },
+      {
+        "feature": "txt_n_words",
+        "contribution": 0.5487800173656749
+      },
+      {
+        "feature": "env_pub_volume_3y",
+        "contribution": 0.44909118387235814
+      },
+      {
+        "feature": "ev_top5_mean_sim",
+        "contribution": 0.4420604826783032
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "tra_archival_data",
+        "contribution": -3.446980641586412
+      },
+      {
+        "feature": "ev_native_n_papers",
+        "contribution": -0.8655693028635554
+      },
+      {
+        "feature": "txt_is_yesno",
+        "contribution": -0.7202985452399492
+      },
+      {
+        "feature": "nov_mean_top10_sim",
+        "contribution": -0.6334646380028709
+      }
+    ]
+  },
+  {
+    "question_id": "stellar_activity-2020-003",
+    "question": "What are the underlying causes of the discrepancies in transit depth variations observed in Kepler archival data over ~ 3.5 years compared to previous studies that reported time-dependent variations?",
+    "subfield": "stellar_activity",
+    "source": "evidence_tension",
+    "predicted_p_attention": 0.04346508502753236,
+    "observed_addressed": false,
+    "observed_status": "not_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "fal_named_dataset",
+        "contribution": 1.792913669466859
+      },
+      {
+        "feature": "env_years_to_next_facility",
+        "contribution": 0.7213778198892505
+      },
+      {
+        "feature": "ev_native_n_papers",
+        "contribution": 0.4785261186562746
+      },
+      {
+        "feature": "ev_top5_mean_sim",
+        "contribution": 0.3995644760140413
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "tra_archival_data",
+        "contribution": -3.446980641586412
+      },
+      {
+        "feature": "fal_quant_threshold",
+        "contribution": -1.2038655054026766
+      },
+      {
+        "feature": "ev_has_native_record",
+        "contribution": -1.1380356215259078
+      },
+      {
+        "feature": "tra_n_facilities_mentioned",
+        "contribution": -0.7856612063422252
+      }
+    ]
+  },
+  {
+    "question_id": "galaxy_evolution-2020-004",
+    "question": "How does the dark matter distribution in the innermost regions of dwarf galaxies compare to the predictions of cold dark matter (CDM) halo models, particularly in relation to the observed rotation curves and the presence of constant density cores?",
+    "subfield": "galaxy_evolution",
+    "source": "evidence_tension",
+    "predicted_p_attention": 0.49546243138207324,
+    "observed_addressed": true,
+    "observed_status": "partially_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "ev_native_n_papers",
+        "contribution": 1.8226215401761048
+      },
+      {
+        "feature": "nov_mean_top10_sim",
+        "contribution": 1.709682501407948
+      },
+      {
+        "feature": "env_pub_volume_3y",
+        "contribution": 0.41850696667234905
+      },
+      {
+        "feature": "txt_specificity",
+        "contribution": 0.2655731363732626
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "ev_has_native_record",
+        "contribution": -1.1380356215259078
+      },
+      {
+        "feature": "txt_n_words",
+        "contribution": -0.8183980258975063
+      },
+      {
+        "feature": "env_review_count_3y",
+        "contribution": -0.7113796415893137
+      },
+      {
+        "feature": "ev_top5_mean_sim",
+        "contribution": -0.6880715824606675
+      }
+    ]
+  },
+  {
+    "question_id": "paper1-q_004",
+    "question": "Under what atmospheric conditions does HD 189733 b exhibit subsolar water abundances alongside robust carbon monoxide detection in high-dispersion transmission spectra?",
+    "subfield": "exoplanet_atmospheres",
+    "source": "paper1_evidence_graph",
+    "predicted_p_attention": 0.4973583694920383,
+    "observed_addressed": false,
+    "observed_status": "not_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "txt_specificity",
+        "contribution": 1.130194767861214
+      },
+      {
+        "feature": "ev_has_native_record",
+        "contribution": 0.6936902524469718
+      },
+      {
+        "feature": "txt_n_words",
+        "contribution": 0.4768232782465602
+      },
+      {
+        "feature": "env_review_count_3y",
+        "contribution": 0.25876046463205105
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "fal_quant_threshold",
+        "contribution": -1.2038655054026766
+      },
+      {
+        "feature": "ev_native_n_papers",
+        "contribution": -0.8655693028635554
+      },
+      {
+        "feature": "txt_n_entities",
+        "contribution": -0.6762408657871863
+      },
+      {
+        "feature": "nov_review_overlap",
+        "contribution": -0.4367542567587453
+      }
+    ]
+  },
+  {
+    "question_id": "exoplanet_atmospheres-2020-017",
+    "question": "What is the relative contribution of the biosphere and its chemical fingerprints on Earth's developing regolith?",
+    "subfield": "exoplanet_atmospheres",
+    "source": "future_work",
+    "predicted_p_attention": 0.49807420191690294,
+    "observed_addressed": false,
+    "observed_status": "not_addressed",
+    "main_positive_factors": [
+      {
+        "feature": "txt_n_words",
+        "contribution": 0.8366069738421341
+      },
+      {
+        "feature": "ev_top5_mean_sim",
+        "contribution": 0.8085486100775484
+      },
+      {
+        "feature": "ev_has_native_record",
+        "contribution": 0.6936902524469718
+      },
+      {
+        "feature": "env_review_count_3y",
+        "contribution": 0.25876046463205105
+      }
+    ],
+    "main_negative_factors": [
+      {
+        "feature": "nov_mean_top10_sim",
+        "contribution": -1.618400694704185
+      },
+      {
+        "feature": "ev_native_n_papers",
+        "contribution": -0.8655693028635554
+      },
+      {
+        "feature": "txt_specificity",
+        "contribution": -0.599048495114689
+      },
+      {
+        "feature": "nov_review_overlap",
+        "contribution": -0.19087976915715588
+      }
+    ]
+  }
+]

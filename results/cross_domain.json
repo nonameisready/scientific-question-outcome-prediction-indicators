@@ -1,0 +1,30 @@
+{
+  "train_subfields": [
+    "exoplanet_atmospheres",
+    "protoplanetary_disks",
+    "stellar_activity",
+    "galaxy_evolution"
+  ],
+  "test_subfields": [
+    "fast_radio_bursts",
+    "gravitational_waves",
+    "cosmology_tensions",
+    "compact_objects"
+  ],
+  "gbm": {
+    "n": 470,
+    "base_rate": 0.5531914893617021,
+    "brier": 0.25380940666822877,
+    "accuracy": 0.6085106382978723,
+    "auc": 0.6473626373626373,
+    "average_precision": 0.6539770496039264
+  },
+  "logistic": {
+    "n": 470,
+    "base_rate": 0.5531914893617021,
+    "brier": 0.2209954218588375,
+    "accuracy": 0.676595744680851,
+    "auc": 0.7101465201465201,
+    "average_precision": 0.7031467286051711
+  }
+}

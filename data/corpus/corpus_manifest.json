@@ -1,0 +1,82 @@
+{
+  "built_on": "2026-07-26",
+  "source": "arXiv API (export.arxiv.org), categories astro-ph + 6 subcategories",
+  "harvest_years": [
+    2005,
+    2025
+  ],
+  "n_papers_total": 313189,
+  "corpus_sha256": "a73720ed5b2017a09aca8a8a3413c7729bedd78db2ab67493111970748e65671",
+  "subfield_paper_totals": {
+    "exoplanet_atmospheres": 4354,
+    "protoplanetary_disks": 10378,
+    "stellar_activity": 4347,
+    "fast_radio_bursts": 1966,
+    "gravitational_waves": 17989,
+    "galaxy_evolution": 21390,
+    "cosmology_tensions": 16403,
+    "compact_objects": 34266
+  },
+  "cutoff_windows": {
+    "2012": {
+      "cutoff_date": "2012-12-31",
+      "past_window": [
+        "2005-01-01",
+        "2012-12-31"
+      ],
+      "future_window": [
+        "2013-01-01",
+        "2017-12-31"
+      ]
+    },
+    "2014": {
+      "cutoff_date": "2014-12-31",
+      "past_window": [
+        "2007-01-01",
+        "2014-12-31"
+      ],
+      "future_window": [
+        "2015-01-01",
+        "2019-12-31"
+      ]
+    },
+    "2016": {
+      "cutoff_date": "2016-12-31",
+      "past_window": [
+        "2009-01-01",
+        "2016-12-31"
+      ],
+      "future_window": [
+        "2017-01-01",
+        "2021-12-31"
+      ]
+    },
+    "2018": {
+      "cutoff_date": "2018-12-31",
+      "past_window": [
+        "2011-01-01",
+        "2018-12-31"
+      ],
+      "future_window": [
+        "2019-01-01",
+        "2023-12-31"
+      ]
+    },
+    "2020": {
+      "cutoff_date": "2020-12-31",
+      "past_window": [
+        "2013-01-01",
+        "2020-12-31"
+      ],
+      "future_window": [
+        "2021-01-01",
+        "2025-12-31"
+      ]
+    }
+  },
+  "classification": {
+    "method": "weighted keyword patterns on title+abstract, category bonus",
+    "score_threshold": 4,
+    "multi_membership": true
+  }
+}

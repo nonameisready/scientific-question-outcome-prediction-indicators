@@ -1,0 +1,26 @@
+{
+  "majority_class": {
+    "n": 210,
+    "base_rate": 0.5285714285714286,
+    "brier": 0.2492293226785154,
+    "accuracy": 0.5285714285714286,
+    "auc": 0.5,
+    "average_precision": 0.5285714285714286
+  },
+  "subfield_popularity_only": {
+    "n": 210,
+    "base_rate": 0.5285714285714286,
+    "brier": 0.26567582089812564,
+    "accuracy": 0.5333333333333333,
+    "auc": 0.5188825188825189,
+    "average_precision": 0.5463283534499751
+  },
+  "question_text_only": {
+    "n": 210,
+    "base_rate": 0.5285714285714286,
+    "brier": 0.20837074959512977,
+    "accuracy": 0.7047619047619048,
+    "auc": 0.7716807716807716,
+    "average_precision": 0.7940671236470718
+  }
+}

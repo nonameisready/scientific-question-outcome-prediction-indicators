@@ -1,0 +1,66 @@
+{
+  "compact_objects": {
+    "n": 125,
+    "base_rate": 0.512,
+    "brier": 0.2654288709653961,
+    "accuracy": 0.6,
+    "auc": 0.619108606557377,
+    "average_precision": 0.5863199301919182
+  },
+  "cosmology_tensions": {
+    "n": 125,
+    "base_rate": 0.6,
+    "brier": 0.2123270745147867,
+    "accuracy": 0.672,
+    "auc": 0.7133333333333334,
+    "average_precision": 0.7761149320337952
+  },
+  "exoplanet_atmospheres": {
+    "n": 135,
+    "base_rate": 0.5703703703703704,
+    "brier": 0.23477343045459229,
+    "accuracy": 0.6074074074074074,
+    "auc": 0.6845051500223914,
+    "average_precision": 0.7609792840820075
+  },
+  "fast_radio_bursts": {
+    "n": 95,
+    "base_rate": 0.6421052631578947,
+    "brier": 0.26597375171183835,
+    "accuracy": 0.5578947368421052,
+    "auc": 0.6547733847637415,
+    "average_precision": 0.8018271526459899
+  },
+  "galaxy_evolution": {
+    "n": 125,
+    "base_rate": 0.56,
+    "brier": 0.23345630924636004,
+    "accuracy": 0.584,
+    "auc": 0.6584415584415584,
+    "average_precision": 0.7167916371450518
+  },
+  "gravitational_waves": {
+    "n": 125,
+    "base_rate": 0.48,
+    "brier": 0.20396457477359664,
+    "accuracy": 0.664,
+    "auc": 0.7476923076923077,
+    "average_precision": 0.7451633710080731
+  },
+  "protoplanetary_disks": {
+    "n": 125,
+    "base_rate": 0.536,
+    "brier": 0.22014056855770178,
+    "accuracy": 0.632,
+    "auc": 0.7012352032938755,
+    "average_precision": 0.7565209883662916
+  },
+  "stellar_activity": {
+    "n": 125,
+    "base_rate": 0.336,
+    "brier": 0.22837624557003347,
+    "accuracy": 0.664,
+    "auc": 0.77653471026965,
+    "average_precision": 0.6084275048421585
+  }
+}

@@ -1,0 +1,504 @@
+# What Makes a Scientific Question Succeed? Predicting Future Attention, Resolution, and Premise Revision from Question Structure and Evidence Context
+
+**Paper 3 — temporally grounded predictor discovery for scientific questions**
+
+## Abstract
+
+Large language models are increasingly asked to propose "important open
+questions", and are typically evaluated by asking another model how good
+those questions feel. We replace taste with history. We construct a
+temporally grounded dataset of **980 astronomy research questions** frozen
+at five historical cutoffs (2012–2020), spanning eight subfields and four
+distinct generation sources — evidence-tension mining, direct LLM
+elicitation, author-stated future work, and weak/negative controls — on
+top of the complete arXiv astro-ph metadata record (**313,189 papers,
+2005–2025**). Each question carries a six-group cutoff-time feature
+record (text structure, evidence context, novelty, falsifiability,
+tractability, field environment) and a tiered outcome label derived from
+the five years of literature that actually followed. Under a strict,
+source-blinded outcome judge, 52.7% of questions were substantively
+addressed; negative-control questions were addressed least (32%) and
+direct-LLM questions most (88%), the latter carrying a documented
+parametric-leakage caveat. Interpretable models trained on 2012–2016
+cutoffs predict 2020 outcomes at AUC 0.71 and transfer to entirely
+held-out subfields at AUC 0.65–0.71. Across univariate, controlled,
+ablation, and stability analyses, the robust predictors of future
+attention are **prior community recognition** (overlap with pre-cutoff
+review articles, β=+0.34, p<10⁻⁴), **the density of directly related
+prior evidence** (β=+0.26), and **explicitly stated competing
+hypotheses** (β=+0.17) — while high entity-specificity predicts *less*
+and *slower* engagement under literature-bounded labels. Five of six
+pre-stated mechanism hypotheses, including "evidence tension beats
+novelty", are *not* supported at scale — a result only visible because
+the dataset is large, multi-cutoff, and control-laden. All data, code,
+labels, and judge rationales are released.
+
+## 1. Introduction
+
+A scientific question is an instrument for allocating future effort. Yet
+the standard way of evaluating machine-generated research questions — LLM
+or expert panels scoring "importance" and "novelty" at generation time —
+measures how a question *sounds*, not what it *does*. Paper 2 of this
+series introduced historical backtesting as the alternative: freeze
+questions using only pre-cutoff literature, then observe what the
+scientific community actually did afterwards. Its pilot instance, however,
+contained ten questions from a single subfield and cutoff — enough for a
+case study, not for learning what distinguishes questions that succeed.
+
+This paper turns the backtesting protocol into a supervised-learning
+problem at scale. Three design decisions matter:
+
+1. **The unit of data is (question, cutoff, subfield, source), not the
+   question alone.** We generate questions at five rolling cutoffs
+   (2012–2020) in eight astronomy subfields, so that one study contains
+   what would otherwise be forty historical experiments, and era- or
+   field-specific accidents can be detected rather than absorbed.
+2. **No single generator.** Predictors learned from one generation system
+   risk being that system's stylistic fingerprint. We use four sources —
+   our evidence-tension system, a direct-LLM baseline, questions extracted
+   from the authors' own future-work statements, and deliberately weak
+   controls (random claim pairings, vague, untestable, and
+   evidence-free-contrarian questions). Without negative controls a model
+   can only learn that "question-shaped sentences succeed".
+3. **Prediction is out-of-time or out-of-domain, always.** Random splits
+   would place near-duplicate questions from the same era and topic on
+   both sides. We train on 2012–2016 cutoffs, validate on 2018, test on
+   2020, and additionally hold out entire subfields.
+
+The contribution is deliberately not a leaderboard number. It is a
+temporally grounded dataset of scientific questions with subsequent
+outcomes, and an analysis of *which properties of a question and its
+evidence context* predicted future scientific attention, resolution, and
+premise revision — with controls for field popularity, instrument eras,
+and generation method, and with stability checks across cutoffs,
+subfields, and sources.
+
+## 2. Related framing
+
+Paper 1 built an evidence-graph system that generates questions from
+cross-paper observational tensions. Paper 2 defined the backtesting
+benchmark and showed, on ten frozen exoplanet-atmosphere questions, that
+future literature substantively engaged all ten (one premise later
+refuted). Both left open the question this paper addresses: *what,
+measurably, makes a question one the community will take up?* Related
+work on predicting scientific impact operates at the paper or grant level
+(citation prediction, idea novelty metrics); to our knowledge no prior
+dataset attaches future-outcome labels to *questions* frozen at multiple
+historical cutoffs with controlled generation sources.
+
+## 3. Dataset construction
+
+### 3.1 Corpus
+
+We harvested the complete arXiv astro-ph metadata record — titles,
+abstracts, submission dates, and categories — from 2005-01 through
+2025-12 via the public arXiv API (**313,189 papers** after deduplication;
+`pipeline/harvest.py`). Papers are assigned to eight subfields by
+transparent weighted keyword rules over title+abstract (multi-membership
+allowed): exoplanet atmospheres (4,354 papers), protoplanetary disks
+(10,378), stellar activity (4,347), fast radio bursts (1,966),
+gravitational waves (17,989), galaxy evolution (21,390), cosmology
+tensions (16,403), and compact objects (34,266). The classifier is
+identical at every cutoff, so subfield corpora are time-sliced views of a
+fixed rule, not retrofitted topic models.
+
+Each cutoff year c ∈ {2012, 2014, 2016, 2018, 2020} defines a **past
+window** [c−7, c] used for generation and features and a **future
+window** (c, c+5] used only for labels. The five future windows all close
+by 2025-12-31, giving every cutoff the same 5-year outcome horizon.
+
+### 3.2 Question generation (40 cells × quota 25)
+
+For every (cutoff, subfield) cell:
+
+- **Evidence-tension (10).** We mine the cell's past-window abstracts for
+  tension statements (contradiction, discrepancy, unexplained-result
+  markers), cluster them so that each cluster spans ≥ 2 distinct papers,
+  and have an LLM phrase each cluster as one precise question grounded
+  only in the mined sentences. Provenance (exact sentences, arXiv ids,
+  dates) is stored with the question.
+- **Direct LLM (5).** The baseline the field implicitly uses: the model
+  sees a year-stratified sample of pre-cutoff titles and is asked for the
+  most important unanswered questions, with an explicit
+  knowledge-freeze instruction.
+- **Future-work (5).** Sentences in which pre-cutoff authors themselves
+  flag an open problem ("remains poorly constrained", "further
+  observations are needed"), selected for topic diversity and converted
+  faithfully into interrogative form. These are real scientists'
+  questions.
+- **Controls (5).** Two random claim-pairings across unrelated papers,
+  one vague question, one untestable question, one evidence-free
+  consensus challenge — all phrased by the same LLM so that surface style
+  cannot separate controls from real candidates.
+
+Near-duplicates within a cell are removed (TF-IDF cosine ≥ 0.75). The ten
+frozen Paper 1 evidence-graph questions join the dataset as a small
+additional source (cutoff 2020, exoplanet atmospheres), linking this
+study to the original system.
+
+**Realized totals: 980 questions** — 374 evidence-tension, 200
+direct-LLM, 196 future-work, 200 controls, 10 Paper 1. Every non-FRB cell
+filled its full quota of 25; early fast-radio-burst cells are
+data-limited by history itself (the pre-2013 FRB literature contains 21
+papers, yielding 11 questions at the 2012 cutoff), which we treat as a
+feature of honest backtesting rather than a defect. The dataset is
+regenerable bit-identically from the frozen LLM cache; rebuilding the
+corpus from scratch and regenerating produced byte-identical questions.
+
+Temporal isolation is enforced by construction — every mined sentence and
+every title shown to a generator predates the cutoff — and verified by an
+automated validator over the frozen records (980/980 pass).
+
+### 3.3 Feature record (six groups, all cutoff-time)
+
+**A. Text structure** — length, named entities, numbers, causal /
+comparative / mechanistic language, measurable quantities, explicit
+alternatives ("real or artifact"), falsification wording, yes/no form,
+and a composite specificity score.
+
+**B. Evidence context** — retrieval of the top-20 pre-cutoff subfield
+papers for each question: similarity mass (top-1, mean top-5, count above
+threshold), instrument diversity among retrieved papers, density of
+tension markers in the retrieved evidence, and the age profile of that
+evidence; plus native evidence-record features (paper count, year spread)
+for tension-sourced questions.
+
+**C. Novelty** — nearest-neighbour semantic distance to the pre-cutoff
+corpus, mean top-10 similarity, concept-pair novelty (do the question's
+two most distinctive terms co-occur in any pre-cutoff paper?), and
+overlap with pre-cutoff review articles (was the question already posed
+in reviews?).
+
+**D. Falsifiability / answerability** — rule-based markers plus a blinded
+LLM structured coding of {observable, competing_hypotheses,
+quantitative_test, falsification_path} for every question.
+
+**E. Tractability** — facilities named in the question checked against a
+lexicon of ~50 astronomical facilities with operational epochs: counts of
+already-operational vs. future instruments, archival-data markers,
+longitudinal / theory / large-sample requirements.
+
+**F. Field environment (controls)** — subfield publication volume and
+growth at the cutoff, review activity, share of all astro-ph output, and
+proximity of the subfield's next major facility launch (capped at 10
+years). These are confounders to control for, not virtues of the
+question: without them a model mistakes hot fields for good questions.
+
+### 3.4 Tiered outcome labels
+
+**Tier 1 (automatic candidates).** For each question we retrieve future
+papers from its subfield's future window: relevant-paper count (cosine ≥
+0.18), weak-relevance count, first-follow-up date, lead time in months,
+and review recognition.
+
+**Tier 2 (strict, blinded LLM judge).** For every question with any
+plausible future evidence (956 of 980; the rest are auto-labeled
+not_addressed), a GPT-4o judge sees the question and its top-8 retrieved
+future records — never the generation source. The rubric is deliberately
+strict and two-stage: the judge first classifies every candidate paper as
+**direct** (investigates this question's own objects, quantities, or
+claimed relationship), **adjacent** (same topic only), or unrelated, and
+only then assigns `addressed`, `answer_status` ∈ {answered,
+partially_addressed, posed_but_open, premise_refuted, not_addressed},
+`premise_status`, supporting ids, a rationale, and a confidence.
+`addressed` is *derived*: it requires at least one direct candidate. This
+rubric matters — a first-pass lenient judge (GPT-4o-mini, same evidence)
+called 94% of questions addressed by accepting topical overlap; the
+strict per-candidate rubric brings the rate to 52.7% and restores
+variance to every analysis downstream.
+
+**Tier 3 (independent verification).** A second model (GPT-4o-mini)
+re-judges all premise_refuted cases plus a 20% random sample under the
+identical rubric (n=200): raw agreement on `addressed` is 63.5%
+(κ=0.21), status agreement 58.4% (κ=0.22). The disagreement is
+one-directional — the weaker model is systematically more lenient,
+almost never the reverse (its "partially_addressed" precision against
+the strict judge is 0.99) — so we treat the strict labels as primary and
+release both, with all rationales and supporting ids, for audit.
+
+## 4. Models and evaluation protocol
+
+Baselines before models, interpretable models before ensembles: majority
+class; field-popularity-only; question-text-only (bag of words); then L2
+and L1 logistic regression, random forest, and gradient boosting on the
+structured features; multinomial GBM for the five-way status; a Cox
+proportional-hazards model for time-to-first-follow-up; and within-cell
+ranking concordance between model scores and future paper counts.
+
+All headline numbers use the **temporal split** (train 2012–2016,
+validate 2018, test 2020). Generalization is probed with
+**leave-one-subfield-out** and a fixed **cross-domain split** (train:
+exoplanet atmospheres, disks, stellar activity, galaxy evolution → test:
+FRBs, gravitational waves, cosmology tensions, compact objects). Random
+splits are not reported anywhere in this paper.
+
+Predictor identification goes beyond feature importance: (i) univariate
+associations; (ii) controlled logistic effects with subfield, cutoff,
+source, and environment covariates; (iii) feature-group ablations; (iv)
+sign-stability of controlled effects across cutoffs, subfields, and
+generation sources. A predictor is called robust only if it survives all
+four.
+
+### Pre-stated hypotheses
+
+- **H1** Cross-source evidence tension predicts future attention better
+  than semantic novelty.
+- **H2** Observation availability predicts short-term attention but not
+  premise refutation.
+- **H3** Explicit competing hypotheses raise the probability of being
+  answered, given attention.
+- **H4** Novelty shows an inverted-U: very high novelty reduces
+  short-term attention.
+- **H5** Field popularity inflates future paper counts without raising
+  answer rates.
+- **H6** High-tension × high-tractability questions succeed most.
+
+## 5. Results
+
+### 5.1 What happened to the questions
+
+Of 980 frozen questions, **52.7% were substantively addressed** within
+five years of their cutoff: 474 partially addressed, 30 posed-but-open,
+8 answered, 4 premise-refuted, 464 not addressed. Addressed questions
+drew a mean of 3.8 relevant future papers and were first engaged after a
+mean of 16.7 months. Rates are stable across cutoffs (0.45–0.57),
+confirming that no single era drives the results.
+
+Generation source separates outcomes exactly as a functioning label
+should:
+
+| Source | Addressed |
+| --- | --- |
+| Direct LLM | 0.88 |
+| Author future-work | 0.51 |
+| Evidence-tension | 0.47 |
+| Weak/negative controls | 0.32 |
+| Paper 1 evidence-graph (n=10) | 0.20 |
+
+Controls land lowest — the dataset's sanity check passes. The direct-LLM
+rate of 0.88 should be read with care: the generating model may know,
+parametrically, which 2016-era questions became hot topics, an
+irreducible leakage channel we document rather than claim to eliminate
+(section 7). The mined sources (tension, future-work) are built from
+pre-cutoff sentences and cannot leak this way; that they land at ~0.5
+against a strict judge is the honest base rate of real open problems.
+The ten Paper 1 questions — all engaged by future literature under Paper
+2's full-text, hand-curated evaluation — score only 2/10 here, a direct
+measurement of how much this paper's abstract-only retrieval and strict
+direct-engagement bar *under-count* engagement for narrow, object-level
+questions (they average 3.4 entities per question vs. 1.5 elsewhere).
+
+### 5.2 Predicting future attention (Task A)
+
+Temporal split, test = cutoff 2020 (n=210, base rate 0.53):
+
+| Model | AUC | Notes |
+| --- | --- | --- |
+| Majority class | 0.500 | |
+| Field popularity only | 0.519 | popularity is *not* a question-level predictor |
+| Question text only (BoW) | 0.772 | absorbs source style + topic hotness |
+| Logistic (structured, L2) | 0.713 | interpretable |
+| Logistic (L1) | 0.707 | |
+| Random forest | 0.718 | |
+| Gradient boosting | 0.688 | |
+
+Three observations. First, everything question-level beats field
+popularity by a wide margin: which questions succeed is not just which
+fields are hot. Second, raw question text is the strongest single signal
+— but it is also the least meaningful, because it can encode the
+generator's stylistic fingerprint (direct-LLM questions are both
+stylistically distinctive and 88% addressed). Third, the structured
+features reach AUC 0.71 while being *auditable*: every unit of signal is
+a named, cutoff-time property.
+
+**Out-of-domain.** Trained on four subfields and tested on four entirely
+unseen ones (n=470), the structured logistic model holds AUC **0.710**
+(GBM 0.647). Leave-one-subfield-out AUCs span 0.62–0.78 with every
+subfield above chance (stellar activity 0.78, gravitational waves 0.75,
+cosmology 0.71, disks 0.70, exoplanet atmospheres 0.69, galaxy evolution
+0.66, FRBs 0.66, compact objects 0.62). Question-level predictors are
+not a memorized property of any one community.
+
+**Ablations** (GBM, temporal test): evidence-context is the load-bearing
+group — dropping it costs the most (0.688 → 0.665) and it alone nearly
+matches the full model (0.685). Text-only structure reaches 0.578,
+falsifiability 0.543, tractability 0.540, environment 0.550. Dropping
+the novelty group *helps* (0.708), foreshadowing the hypothesis results.
+
+### 5.3 Which properties robustly predict attention
+
+Controlled logistic effects (standardized, with subfield + cutoff +
+source + environment covariates), with sign-stability across the 5
+cutoffs / 8 subfields / 4 sources:
+
+| Predictor | β | p | Sign-stable (cutoffs/subfields/sources) |
+| --- | --- | --- | --- |
+| Review overlap (question already visible in pre-cutoff reviews) | **+0.34** | 4×10⁻⁵ | 1.00 / 0.88 / 1.00 |
+| N. directly similar prior papers | **+0.26** | 0.005 | 0.80 / 1.00 / 0.75 |
+| Instrument diversity of prior evidence | **−0.21** | 0.005 | 1.00 / 0.75 / 1.00 |
+| Explicit competing hypotheses (LLM-coded) | **+0.17** | 0.021 | 0.80 / 0.88 / 0.50 |
+| Semantic novelty (distance to prior corpus) | +0.17 | 0.030 | 1.00 / 0.75 / 0.50 |
+| Entity count | −0.17 | 0.039 | 0.80 / 0.75 / 0.50 |
+| Specificity score | −0.16 | 0.041 | 0.80 / 1.00 / 0.50 |
+| Evidence tension density | +0.06 | 0.52 | 0.60 / 0.62 / 0.50 |
+
+The picture that survives all four analyses:
+
+1. **The community mostly answers questions it has already begun to
+   recognize.** Overlap with pre-cutoff reviews is the strongest, most
+   stable predictor — future attention is highly autocorrelated with
+   present institutional attention, even after controlling for field
+   size and growth.
+2. **A dense base of directly related evidence predicts uptake;
+   evidence *tension* per se does not.** What matters is that many
+   papers already bear on the question, not that they disagree.
+3. **Questions whose evidence spans many instruments are *less* likely
+   to be engaged** — consistent with multi-instrument questions being
+   synthesis-level problems that no single group owns.
+4. **Explicitly articulated competing hypotheses help** — the one
+   falsifiability property with predictive teeth.
+5. **Specificity cuts against measured attention.** Highly
+   entity-specific questions are engaged less often and *more slowly*
+   (Cox HR 0.73 per SD, p<10⁻⁴) under literature-bounded labels — partly
+   a real narrowness effect, partly the retrieval bound (section 7).
+
+**Time-to-engagement (Task C).** In the Cox model (516 events/980),
+retrieval-similarity mass dominates speed (HR 3.77 per SD), field growth
+accelerates engagement (HR 1.15), an explicit falsification path
+accelerates it (HR 1.15), and specificity (HR 0.73) and tension density
+(HR 0.88) slow it. Within-cell ranking of 2020 questions by model score
+correlates with realized future paper counts at mean Spearman ρ=0.29
+across the 8 test cells.
+
+**Outcome type (Task B).** The five-way status classifier reaches macro-F1
+0.23 (accuracy 0.56): it separates addressed/partial from not-addressed
+but cannot yet learn the rare classes (8 answered, 4 refuted in total) —
+exactly the sample-size regime the design anticipated, and the reason
+Task A is primary at n≈1,000.
+
+### 5.4 Pre-stated hypotheses: mostly falsified
+
+| Hypothesis | Verdict |
+| --- | --- |
+| H1 tension > novelty | **No.** Novelty carries a small positive controlled effect (β=0.17, p=0.03); tension density is null (β=0.06, p=0.52). |
+| H2 observation availability → attention | **No.** Operational-facility count is null on attention (p=0.91); refutation side untestable (4 cases). |
+| H3 competing hypotheses → answered | **Directionally yes, underpowered.** On attention: β=0.17, p=0.02. On answered-given-addressed: β=0.56, p=0.08. |
+| H4 novelty inverted-U | **No.** Quadratic term null (p=0.46). |
+| H5 popularity → counts, not answers | **Untestable as stated.** Count effect positive but n.s. (p=0.21); answer side degenerate (8 answered). |
+| H6 tension × tractability interaction | **Marginal.** β=0.16, p=0.053 — suggestive, unconfirmed. |
+
+We regard this table as a feature of the method, not a failure of the
+paper: five of six mechanism intuitions that sound compelling in a
+proposal do not survive contact with a thousand historical outcomes and
+proper controls.
+
+### 5.5 Interpretable prediction cards
+
+The released pipeline emits, for any frozen question, a card of the form:
+
+```
+Question: How does the dark matter distribution in the innermost regions
+  of dwarf galaxies compare to the predictions of cold dark matter
+  simulations? [evidence_tension, cutoff 2020]
+Predicted P(future attention): 0.50 → observed: addressed (partial)
+Main positive factors: review overlap, directly similar prior papers,
+  explicit competing explanations
+Main negative factors: high entity specificity, multi-instrument
+  evidence base
+```
+
+A cautionary card from the Paper 1 import: *"To what extent have actual
+JWST observations validated pre-launch predictions that aerosol-free
+TRAPPIST-1 CO₂ features should be detectable…"* (frozen at 2020-12-31,
+predicted 0.003, observed not addressed under our retrieval). The
+phrase "actual JWST observations" presumes data that did not exist at
+the cutoff — an instance of generation-time knowledge contaminating the
+*phrasing* of a nominally frozen question. Every LLM-mediated pipeline,
+including ours and Paper 1's, needs phrasing audits of exactly this
+kind; the dataset makes such audits possible because provenance is
+stored verbatim.
+
+## 6. Discussion
+
+**What the dataset says about question value.** The strongest honest
+summary: five-year scientific attention is predictable to a useful
+degree (AUC ~0.7 out-of-time and out-of-domain) from cutoff-time
+properties, but the predictive properties are about the question's
+*relationship to its community* — already-in-reviews, dense direct
+evidence, articulated alternatives — more than about the intrinsic
+virtues the literature on "good questions" celebrates (novelty, tension,
+specificity). Attention follows preparation. Whether that is how science
+*should* allocate attention is precisely the kind of question this
+dataset now lets others study: the rare premise-refuted cases, the
+slow-burning specific questions, and the unaddressed-but-well-formed
+tail are all released with full provenance.
+
+**Specificity and the measurement bound.** The negative specificity
+effect is partly real (narrow questions have small addressable
+communities) and partly instrumental: abstract-level TF-IDF retrieval
+misses engagement with object-level questions, as the Paper 1 subset
+demonstrates (2/10 here vs. 10/10 under Paper 2's full-text
+evaluation). We report it as "less *measured* attention", never "worse
+questions" — and this is the main reason Task A labels should be read
+as lower bounds.
+
+**The direct-LLM anomaly is a warning, not a victory.** The 88%
+addressed rate for direct-LLM questions is exactly what parametric
+leakage would produce: a model asked in hindsight for "the most
+important open questions of 2016" can simply recall what 2017–2021
+worked on. Because source is a covariate in every regression, the
+predictor analysis is shielded from this; but any future benchmark that
+scores generators by addressed-rate alone will be gamed by hindsight
+knowledge. Mined sources with verbatim pre-cutoff provenance are the
+defensible foundation.
+
+## 7. Limitations
+
+- **Abstract-level corpus.** Full texts are not used; tension and
+  future-work mining see only abstracts, and citation-weighted attention
+  is unavailable without a second data provider. Paper counts, lead
+  times, and review recognition stand in for citation impact.
+- **Retrieval-bounded labels.** A question can be engaged by literature
+  our TF-IDF retrieval misses; not_addressed is a lower bound on
+  engagement, uniformly across sources but not uniformly across
+  specificity (see § 6).
+- **LLM judges, not humans.** Label reliability is estimated with an
+  independent second model rather than human adjudication (63.5% raw
+  agreement, κ=0.21, disagreement one-directionally lenient). The
+  annotation protocol, rationales, and supporting ids are released so
+  human passes can replace or audit the judges; per-class precision
+  tables are in the released agreement report.
+- **Parametric-knowledge leakage.** The direct-LLM source (and, weakly,
+  LLM phrasing of mined material) can import post-cutoff knowledge
+  despite freeze instructions — including into question phrasing, as the
+  JWST card shows. Source is controlled for in all analyses; the
+  direct-LLM addressed rate should not be read as generator quality.
+- **Rare outcomes remain rare.** 8 answered and 4 premise-refuted
+  questions cannot support the Task B taxonomy or H2/H5 as stated;
+  the design document's projection that these classes need 2,000–5,000
+  questions is confirmed empirically.
+- **One domain.** Astronomy only; the cross-subfield transfers here are
+  necessary but not sufficient evidence of cross-science generality.
+
+## 8. Conclusion
+
+We built the first temporally grounded, multi-cutoff, multi-source
+dataset of scientific questions with future-outcome labels, and used it
+to replace two common practices: scoring questions by how they sound,
+and validating question generators on single-digit case studies. At
+n=980 with strict blinded labeling, future scientific attention is
+predictable (AUC ≈ 0.71 out-of-time and out-of-domain) — and the robust
+predictors are community-relational, not rhetorical. Most pre-registered
+mechanism hypotheses failed, which is the point: a dataset an order of
+magnitude larger than its predecessor makes intuitions testable, and
+most did not survive. The dataset, every prompt, every judge rationale,
+and the full pipeline are released for the community to reuse, audit,
+and extend to other sciences.
+
+## Reproducibility
+
+All code, the frozen dataset, labels, and results are released; every
+pipeline stage is a single script, all LLM calls are cached and pinned to
+temperature 0, and the offline test suite plus a temporal-isolation
+validator run in CI. Rebuilding the corpus from the public arXiv API and
+regenerating the dataset reproduced the frozen questions byte-for-byte.

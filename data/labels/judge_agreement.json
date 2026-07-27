@@ -1,0 +1,34 @@
+{
+  "n": 200,
+  "addressed_agreement": 0.635,
+  "addressed_kappa": 0.2133620689655172,
+  "status_agreement": 0.565,
+  "status_kappa": 0.21660438521453335,
+  "per_class": {
+    "premise_refuted": {
+      "precision_vs_primary": NaN,
+      "recall_vs_primary": 0.0,
+      "n_primary": 4
+    },
+    "partially_addressed": {
+      "precision_vs_primary": 0.5568862275449101,
+      "recall_vs_primary": 0.9789473684210527,
+      "n_primary": 95
+    },
+    "not_addressed": {
+      "precision_vs_primary": 0.95,
+      "recall_vs_primary": 0.2087912087912088,
+      "n_primary": 91
+    },
+    "posed_but_open": {
+      "precision_vs_primary": 0.07692307692307693,
+      "recall_vs_primary": 0.125,
+      "n_primary": 8
+    },
+    "answered": {
+      "precision_vs_primary": NaN,
+      "recall_vs_primary": 0.0,
+      "n_primary": 2
+    }
+  }
+}

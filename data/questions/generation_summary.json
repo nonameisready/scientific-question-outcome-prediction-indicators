@@ -1,0 +1,284 @@
+{
+  "total": 980,
+  "cells": {
+    "exoplanet_atmospheres@2012": {
+      "n_past_docs": 560,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "protoplanetary_disks@2012": {
+      "n_past_docs": 2457,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "stellar_activity@2012": {
+      "n_past_docs": 882,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "fast_radio_bursts@2012": {
+      "n_past_docs": 21,
+      "direct_llm": 5,
+      "future_work": 1,
+      "control": 5
+    },
+    "gravitational_waves@2012": {
+      "n_past_docs": 2193,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "galaxy_evolution@2012": {
+      "n_past_docs": 4844,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "cosmology_tensions@2012": {
+      "n_past_docs": 4617,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "compact_objects@2012": {
+      "n_past_docs": 9267,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "exoplanet_atmospheres@2014": {
+      "n_past_docs": 860,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "protoplanetary_disks@2014": {
+      "n_past_docs": 3055,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "stellar_activity@2014": {
+      "n_past_docs": 1164,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "fast_radio_bursts@2014": {
+      "n_past_docs": 67,
+      "evidence_tension": 2,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "gravitational_waves@2014": {
+      "n_past_docs": 2613,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "galaxy_evolution@2014": {
+      "n_past_docs": 5817,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "cosmology_tensions@2014": {
+      "n_past_docs": 5150,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "compact_objects@2014": {
+      "n_past_docs": 10125,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "exoplanet_atmospheres@2016": {
+      "n_past_docs": 1122,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "protoplanetary_disks@2016": {
+      "n_past_docs": 3630,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "stellar_activity@2016": {
+      "n_past_docs": 1480,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "fast_radio_bursts@2016": {
+      "n_past_docs": 203,
+      "evidence_tension": 5,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "gravitational_waves@2016": {
+      "n_past_docs": 3406,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "galaxy_evolution@2016": {
+      "n_past_docs": 7186,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "cosmology_tensions@2016": {
+      "n_past_docs": 5576,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "compact_objects@2016": {
+      "n_past_docs": 11138,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "exoplanet_atmospheres@2018": {
+      "n_past_docs": 1442,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "protoplanetary_disks@2018": {
+      "n_past_docs": 4037,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "stellar_activity@2018": {
+      "n_past_docs": 1671,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "fast_radio_bursts@2018": {
+      "n_past_docs": 438,
+      "evidence_tension": 7,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "gravitational_waves@2018": {
+      "n_past_docs": 4730,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "galaxy_evolution@2018": {
+      "n_past_docs": 8047,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "cosmology_tensions@2018": {
+      "n_past_docs": 5664,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "compact_objects@2018": {
+      "n_past_docs": 12092,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "exoplanet_atmospheres@2020": {
+      "n_past_docs": 1865,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "protoplanetary_disks@2020": {
+      "n_past_docs": 4475,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "stellar_activity@2020": {
+      "n_past_docs": 1855,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "fast_radio_bursts@2020": {
+      "n_past_docs": 829,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "gravitational_waves@2020": {
+      "n_past_docs": 6901,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "galaxy_evolution@2020": {
+      "n_past_docs": 9085,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "cosmology_tensions@2020": {
+      "n_past_docs": 6098,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    },
+    "compact_objects@2020": {
+      "n_past_docs": 13309,
+      "evidence_tension": 10,
+      "direct_llm": 5,
+      "future_work": 5,
+      "control": 5
+    }
+  }
+}

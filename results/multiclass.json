@@ -1,0 +1,12 @@
+{
+  "n_test": 210,
+  "macro_f1": 0.22949997589083368,
+  "accuracy": 0.5619047619047619,
+  "per_class_f1": {
+    "answered": 0.0,
+    "not_addressed": 0.5376344086021505,
+    "partially_addressed": 0.6098654708520179,
+    "posed_but_open": 0.0,
+    "premise_refuted": 0.0
+  }
+}

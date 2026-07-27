@@ -1,0 +1,78 @@
+{
+  "H1": {
+    "statement": "Evidence tension predicts future attention better than semantic novelty.",
+    "tension_effect": {
+      "feature": "ev_tension_density",
+      "beta": 0.06084730848669673,
+      "se": 0.09470880284550018,
+      "p": 0.5205698170461067,
+      "n": 980
+    },
+    "novelty_effect": {
+      "feature": "nov_semantic_distance",
+      "beta": 0.17457180599143993,
+      "se": 0.08036618244886727,
+      "p": 0.029840220002651498,
+      "n": 980
+    },
+    "supported": false
+  },
+  "H2": {
+    "statement": "Observation availability predicts short-term attention, not premise refutation.",
+    "attention_effect": {
+      "feature": "tra_n_facilities_operational",
+      "beta": -0.00814446515325513,
+      "se": 0.06966041211964809,
+      "p": 0.9069260682383247,
+      "n": 980
+    },
+    "refutation_effect": {
+      "beta": NaN,
+      "p": NaN,
+      "note": "too few refuted cases"
+    },
+    "supported": false
+  },
+  "H3": {
+    "statement": "Explicit competing hypotheses increase the probability of being answered.",
+    "effect": {
+      "feature": "fal_competing_llm",
+      "beta": 0.5565394833860269,
+      "se": 0.3209194085287736,
+      "p": 0.08288202534745005,
+      "n": 516
+    },
+    "supported": false
+  },
+  "H4": {
+    "statement": "Very high novelty reduces short-term attention (inverted U).",
+    "effect": {
+      "linear_beta": 0.2149104773472116,
+      "quadratic_beta": 0.03647245714322808,
+      "quadratic_p": 0.46177366093884586
+    },
+    "supported": false
+  },
+  "H5": {
+    "statement": "Field popularity raises future paper counts but not answer rates.",
+    "count_effect": {
+      "beta": 0.22369647251139627,
+      "p": 0.20953254948481373
+    },
+    "answer_effect": {
+      "feature": "env_pub_volume_3y",
+      "beta": NaN,
+      "p": NaN,
+      "n": 516
+    },
+    "supported": false
+  },
+  "H6": {
+    "statement": "Questions with high tension AND high tractability succeed most.",
+    "effect": {
+      "interaction_beta": 0.15664865663326613,
+      "interaction_p": 0.053151552655223255
+    },
+    "supported": false
+  }
+}
