@@ -41,9 +41,14 @@ or expert panels scoring "importance" and "novelty" at generation time —
 measures how a question *sounds*, not what it *does*. Paper 2 of this
 series introduced historical backtesting as the alternative: freeze
 questions using only pre-cutoff literature, then observe what the
-scientific community actually did afterwards. Its pilot instance, however,
-contained ten questions from a single subfield and cutoff — enough for a
-case study, not for learning what distinguishes questions that succeed.
+scientific community actually did afterwards. Its sealed v1.1 release has
+since grown from a ten-question pilot into a benchmark family — a scaled
+424-question baseline instance, a four-cutoff temporal stress test (798
+judged questions, 2010–2024), and a prospective instance frozen in 2026 —
+but its unit of comparison remains the generating *system*: it measures
+which generator families produce questions the future engages, not which
+measurable properties of an individual question predict that engagement.
+That predictor-discovery problem is this paper's subject.
 
 This paper turns the backtesting protocol into a supervised-learning
 problem at scale. Three design decisions matter:
@@ -77,10 +82,30 @@ subfields, and sources.
 
 Paper 1 built an evidence-graph system that generates questions from
 cross-paper observational tensions. Paper 2 defined the backtesting
-benchmark and showed, on ten frozen exoplanet-atmosphere questions, that
-future literature substantively engaged all ten (one premise later
-refuted). Both left open the question this paper addresses: *what,
-measurably, makes a question one the community will take up?* Related
+benchmark and showed, in its pilot, that future literature substantively
+engaged all ten frozen exoplanet-atmosphere questions (one premise — a
+strongly subsolar water abundance for HD 209458 b — later refuted by
+three independent analyses, the exact convergence the question called
+for). Its sealed v1.1 release then scaled the evaluation and sharpened
+three findings this paper builds on. First, at n=125 per baseline,
+engagement rates discriminate between generator families (random
+templates 73% vs. direct-LLM 96%, p<10⁻⁴), and random templates acquire
+a measurable 11%-answered floor — engagement metrics have a priced
+chance level. Second, a generator decomposition (LLM-only vs.
+deterministic evidence structure vs. structure-plus-LLM verbalization)
+crossed with a four-cutoff temporal stress test (2010–2024, 798 judged
+questions, the last window postdating the model's training) located the
+foresight signal in *pre-cutoff evidence structure* rather than model
+weights: LLM-only generation shows near-ceiling engagement and the
+closest phrasing to future literature at every cutoff, yet an answered
+rate indistinguishable from random templates and no premise refutations
+outside the deepest-history era. Third, a seven-rater agreement study
+(two blinded humans, five judge models, 90 items) found the two humans
+agree at only κ=0.17 — indicting the outcome taxonomy, not any
+particular judge, and capping what absolute outcome rates can mean.
+Both papers evaluate question *generators*; neither learns
+question-level predictors, which is the question this paper addresses:
+*what, measurably, makes a question one the community will take up?* Related
 work on predicting scientific impact operates at the paper or grant level
 (citation prediction, idea novelty metrics); to our knowledge no prior
 dataset attaches future-outcome labels to *questions* frozen at multiple
@@ -214,7 +239,14 @@ identical rubric (n=200): raw agreement on `addressed` is 63.5%
 one-directional — the weaker model is systematically more lenient,
 almost never the reverse (its "partially_addressed" precision against
 the strict judge is 0.99) — so we treat the strict labels as primary and
-release both, with all rationales and supporting ids, for audit.
+release both, with all rationales and supporting ids, for audit. These
+κ values sit exactly at the measurement ceiling Paper 2 v1.1
+established for outcome taxonomies of this kind: in its seven-rater
+study, two independent, careful human annotators agreed at only κ=0.17,
+and every judge model matched a professional annotator about as well as
+the humans matched each other (κ=0.17–0.26). We therefore adopt Paper
+2's reporting discipline: absolute rates are rater-relative, and every
+comparative claim in this paper is made under a single fixed judge.
 
 ## 4. Models and evaluation protocol
 
@@ -279,14 +311,26 @@ Controls land lowest — the dataset's sanity check passes. The direct-LLM
 rate of 0.88 should be read with care: the generating model may know,
 parametrically, which 2016-era questions became hot topics, an
 irreducible leakage channel we document rather than claim to eliminate
-(section 7). The mined sources (tension, future-work) are built from
-pre-cutoff sentences and cannot leak this way; that they land at ~0.5
-against a strict judge is the honest base rate of real open problems.
-The ten Paper 1 questions — all engaged by future literature under Paper
-2's full-text, hand-curated evaluation — score only 2/10 here, a direct
-measurement of how much this paper's abstract-only retrieval and strict
-direct-engagement bar *under-count* engagement for narrow, object-level
-questions (they average 3.4 entities per question vs. 1.5 elsewhere).
+(section 7). Paper 2 v1.1 measures this channel directly and finds the
+same signature at scale: its direct-LLM baseline has the highest
+phrasing similarity to future literature of any system, near-ceiling
+engagement (96% at n=125), yet an answered rate statistically
+indistinguishable from random templates and zero premise refutations
+outside the one era its weights could have memorized — "memorized
+relevance without specific foresight". The mined sources (tension,
+future-work) are built from pre-cutoff sentences and cannot leak this
+way; that they land at ~0.5 against a strict judge is the honest base
+rate of real open problems. The ten Paper 1 questions — all engaged by
+future literature under Paper 2's adjudicated pilot evaluation
+(coverage 100%) — score only 2/10 here, a direct measurement of how
+much this paper's abstract-only retrieval and strict direct-engagement
+bar *under-count* engagement for narrow, object-level questions (they
+average 3.4 entities per question vs. 1.5 elsewhere). Paper 2's own
+cross-instance anchor shows the same instrument-dependence from the
+other side: re-judging its ten questions on a 2.4× larger corpus
+flipped four labels in both directions — outcome rates are functions of
+the (corpus, retriever, judge) triple, and are comparable only within
+one instance.
 
 ### 5.2 Predicting future attention (Task A)
 
@@ -415,7 +459,9 @@ phrase "actual JWST observations" presumes data that did not exist at
 the cutoff — an instance of generation-time knowledge contaminating the
 *phrasing* of a nominally frozen question. Every LLM-mediated pipeline,
 including ours and Paper 1's, needs phrasing audits of exactly this
-kind; the dataset makes such audits possible because provenance is
+kind — Paper 2 v1.1's released curation log institutionalizes them,
+recording presupposition and phrasing repairs made before freezing —
+and the dataset makes such audits possible because provenance is
 stored verbatim.
 
 ## 6. Discussion
@@ -440,7 +486,15 @@ misses engagement with object-level questions, as the Paper 1 subset
 demonstrates (2/10 here vs. 10/10 under Paper 2's full-text
 evaluation). We report it as "less *measured* attention", never "worse
 questions" — and this is the main reason Task A labels should be read
-as lower bounds.
+as lower bounds. Paper 2 v1.1 attacks the same confound from the metric
+side with a specificity-adjusted foresight score that down-weights
+broad questions anything would engage; under that rubric object-anchored
+questions are precisely what makes outcomes *resolvable* (its
+structure-first pipelines, 95–100% object-anchored, refute premises in
+every era; its LLM-only pipeline, 5% anchored, refutes almost none).
+The two results agree that raw engagement over-rewards breadth and
+under-rewards specificity; they differ only in the remedy — adjust the
+metric (Paper 2) versus control and caveat in the regression (here).
 
 **The direct-LLM anomaly is a warning, not a victory.** The 88%
 addressed rate for direct-LLM questions is exactly what parametric
@@ -450,7 +504,18 @@ worked on. Because source is a covariate in every regression, the
 predictor analysis is shielded from this; but any future benchmark that
 scores generators by addressed-rate alone will be gamed by hindsight
 knowledge. Mined sources with verbatim pre-cutoff provenance are the
-defensible foundation.
+defensible foundation. Paper 2 v1.1's generator decomposition and
+temporal stress test now make this point causally rather than
+suggestively: over identical pre-cutoff evidence structures, a
+weight-free structural generator finds engaged questions in every era,
+the LLM adds value only as a separable verbalization layer, and the
+LLM-only pipeline's performance never rested on specifics that
+memorization could supply — its answered rate is flat across the
+model's training boundary because a topic prior needs no memory of the
+future. Our regression-level shielding (source as a covariate in every
+model) and Paper 2's decomposition are complementary defenses against
+the same threat, operating at the analysis and generation levels
+respectively.
 
 ## 7. Limitations
 
@@ -464,10 +529,21 @@ defensible foundation.
   specificity (see § 6).
 - **LLM judges, not humans.** Label reliability is estimated with an
   independent second model rather than human adjudication (63.5% raw
-  agreement, κ=0.21, disagreement one-directionally lenient). The
-  annotation protocol, rationales, and supporting ids are released so
-  human passes can replace or audit the judges; per-class precision
-  tables are in the released agreement report.
+  agreement, κ=0.21, disagreement one-directionally lenient). Paper 2
+  v1.1's seven-rater study reframes what such numbers can mean: on the
+  analogous taxonomy, two independent human annotators agreed with each
+  other at only κ=0.17, every judge model matched the professional
+  annotator as well as or better than the humans matched each other,
+  and model–model agreement (κ up to 0.60) would have overstated
+  reliability threefold. The weakness lives in outcome taxonomies of
+  this kind, not in our judge specifically; accordingly, absolute rates
+  here are rater-relative, all comparative results hold the judge
+  fixed, and a reliability-gated taxonomy (fewer labels, checkable
+  conditions, a measured human–human κ before release) is the shared
+  v2 requirement for both papers. The annotation protocol, rationales,
+  and supporting ids are released so human passes can replace or audit
+  the judges; per-class precision tables are in the released agreement
+  report.
 - **Parametric-knowledge leakage.** The direct-LLM source (and, weakly,
   LLM phrasing of mined material) can import post-cutoff knowledge
   despite freeze instructions — including into question phrasing, as the
@@ -493,7 +569,12 @@ mechanism hypotheses failed, which is the point: a dataset an order of
 magnitude larger than its predecessor makes intuitions testable, and
 most did not survive. The dataset, every prompt, every judge rationale,
 and the full pipeline are released for the community to reuse, audit,
-and extend to other sciences.
+and extend to other sciences. A forward-looking test is already armed:
+Paper 2 v1.1's prospective instance — 200 questions from four
+generators, frozen 2026-08-17 with a pre-registered 2027–2030 scoring
+window — will let the predictors learned here be evaluated against a
+future no model has seen, converting this paper's retrospective claims
+into ones that time itself will grade.
 
 ## Reproducibility
 
