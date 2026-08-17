@@ -30,8 +30,15 @@ hypotheses** (β=+0.17) — while high entity-specificity predicts *less*
 and *slower* engagement under literature-bounded labels. Five of six
 pre-stated mechanism hypotheses, including "evidence tension beats
 novelty", are *not* supported at scale — a result only visible because
-the dataset is large, multi-cutoff, and control-laden. All data, code,
-labels, and judge rationales are released.
+the dataset is large, multi-cutoff, and control-laden. Answering the
+structural-prior question posed by Paper 2's outlook, we further show
+that within the tension-mined subset the generating evidence-graph
+structure itself is predictive: breadth of the paper cluster in tension
+predicts uptake (β=+0.45/SD), explicit contradiction predicts
+engagement, and quantified, cutoff-persistent tensions carry every
+resolution and premise refutation — a learnable, mining-time prior for
+structure-first question generation. All data, code, labels, and judge
+rationales are released.
 
 ## 1. Introduction
 
@@ -463,6 +470,84 @@ kind — Paper 2 v1.1's released curation log institutionalizes them,
 recording presupposition and phrasing repairs made before freezing —
 and the dataset makes such audits possible because provenance is
 stored verbatim.
+
+### 5.6 A learned prior over evidence-graph structures
+
+Paper 2's outlook section poses the question its architecture needs
+answered next: *which structural patterns of pre-cutoff evidence most
+often lead to questions the future answers, advances, or refutes?* Our
+dataset can answer it empirically, because every tension-mined question
+stores its generating evidence cluster verbatim — sentences, arXiv ids,
+dates. We derive a structural feature record for all 374 tension
+questions with the same transparent rules used elsewhere in the pipeline
+(`pipeline/structure.py`; frozen in
+`data/features/structure_features_v1.jsonl`): cluster breadth (papers
+and claims in tension), evidence-age profile, a four-way tension
+typology (explicit contradiction, unexplained result, methodological
+challenge, detection-vs-limit stance opposition), quantification of the
+discrepancy (N-sigma / factor-of markers), instrument structure, and
+**recurrence** — whether the same tension (shared source papers, same
+subfield) was already detectable at an earlier cutoff, a cutoff-time
+property since earlier past-windows are subsets of the current one.
+
+| Structure indicator | Addressed rate | Controlled effect on addressed |
+| --- | --- | --- |
+| 4-paper cluster (vs. 2–3-paper) | 0.54 vs. 0.32 | **β=+0.45/SD, p=0.001** |
+| Explicit contradiction markers | 0.49 vs. 0.28 | **β=+0.30, p=0.014** |
+| Unexplained-result markers | 0.49 vs. 0.43 | +0.19, p=0.10 |
+| Methodological challenge | 0.46 | −0.11, n.s.; 0/61 resolved |
+| Quantified tension (N-σ) | 0.48 | null; carries all 3 refutations |
+| Recurrent across cutoffs | 0.49 | null; carries all 6 resolutions |
+
+Three structural regularities emerge, one per outcome layer:
+
+1. **Breadth buys attention.** The number of independent papers already
+   in tension is the strongest structural predictor of both being
+   addressed (0.54 for 4-paper clusters vs. 0.32 for 2–3-paper, Fisher
+   p=6×10⁻⁵) and future paper volume (β=+0.12, p=0.03) — the
+   structure-level counterpart of the question-level "density of
+   directly related prior evidence" predictor of section 5.3. Fresher
+   evidence also draws more future papers (evidence age on volume:
+   β=−0.17, p=0.002).
+2. **Explicit contradiction buys engagement; methodological doubt does
+   not resolve.** Clusters whose sentences explicitly disagree are
+   addressed at 0.49 vs. 0.28 without such markers (p=0.0095), and five
+   of the six resolved cases are contradiction-typed. Clusters built on
+   methodological-challenge language engage the community at the average
+   rate but resolved nothing (0/61) — consistent with Paper 2's finding
+   that questions must aim at a contestable claim, not at a diffuse
+   worry about methods.
+3. **Quantification and persistence mark the refutation channel.** All
+   three premise refutations come from *quantified* clusters (3/63 vs.
+   0/311 unquantified, Fisher p=0.005), and all six resolutions come
+   from *recurrent* tensions (6/194 vs. 0/180 first-seen, p=0.03) —
+   structures the miner found again at two or more successive cutoffs.
+   One honesty note bounds this: the three refutations trace to a
+   single physical case (the FRB Galactic-latitude detection-rate
+   discrepancy, independently re-mined at the 2016, 2018, and 2020
+   cutoffs and refuted by the same 2021 study), so they constitute one
+   independent refutation event, and we report this layer as a
+   case-level observation, not a statistical claim. Its shape is
+   nonetheless exactly what Paper 2's protocol predicts: a persistent,
+   quantified, explicitly contradictory tension is a published
+   conclusion waiting to be overturned.
+
+The prior is learnable and transfers out of time: a logistic model on
+structural features alone, trained on the 2012–2018 cutoffs, ranks 2020
+tension questions at AUC 0.586 (n=80) — modest in absolute terms, but
+notable against the right comparison: restricted to the same
+single-source subset, the full 50-feature question-level record manages
+only AUC 0.502, because most of its cross-source signal is generator
+style and topic hotness that vanish within one source. Within a single
+generator, the generating *structure* is the recoverable signal. And
+because every structural feature is computable at mining time — before
+any question is phrased — the fitted coefficients
+(`results/structure_prior.json`) constitute a ranking prior for exactly
+the machine-scale structural search Paper 2's outlook proposes:
+enumerate candidate tensions, rank by breadth, explicit contradiction,
+quantification, and persistence, verbalize the survivors. The
+prospective instance (section 8) is the pre-registered test of whether
+this prior holds on a future no model has seen.
 
 ## 6. Discussion
 

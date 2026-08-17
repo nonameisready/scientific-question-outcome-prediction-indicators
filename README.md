@@ -47,7 +47,13 @@ AUC 0.71, leave-one-subfield-out 0.62–0.78; the robust predictors of
 future attention are prior review recognition, density of directly
 related prior evidence, and explicit competing hypotheses — while five of
 six pre-stated mechanism hypotheses (including "tension beats novelty")
-are not supported.
+are not supported. Within the tension-mined subset, the generating
+evidence-graph *structure* is itself predictive (`pipeline/structure.py`,
+`results/structure_prior.json`): cluster breadth predicts uptake
+(β=+0.45/SD), explicit contradiction predicts engagement, and
+quantified, cutoff-recurrent tensions carry every resolution and
+premise refutation — a mining-time ranking prior for structure-first
+question generation.
 
 ## Feature groups (all cutoff-time)
 
@@ -115,6 +121,9 @@ python scripts/run_labels.py
 
 # Stage 5: models, analyses, hypotheses, figures
 python scripts/run_models.py
+
+# Stage 6 (offline): evidence-graph structure prior
+python scripts/run_structure_prior.py
 ```
 
 All LLM calls are cached under `data/cache/llm/` and pinned to fixed

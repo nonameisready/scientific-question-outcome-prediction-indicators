@@ -1,0 +1,467 @@
+{
+  "n_tension_questions": 374,
+  "descriptive_rates": {
+    "all_tension": {
+      "n": 374,
+      "addressed": 0.465,
+      "advanced": 0.433,
+      "resolved_n": 6,
+      "refuted_n": 3,
+      "mean_future_papers": 4.51
+    },
+    "str_type_contradiction": {
+      "n": 331,
+      "addressed": 0.489,
+      "advanced": 0.453,
+      "resolved_n": 5,
+      "refuted_n": 3,
+      "mean_future_papers": 4.34
+    },
+    "str_type_contradiction_absent": {
+      "n": 43,
+      "addressed": 0.279,
+      "advanced": 0.279,
+      "resolved_n": 1,
+      "refuted_n": 0,
+      "mean_future_papers": 5.79
+    },
+    "str_type_unexplained": {
+      "n": 233,
+      "addressed": 0.485,
+      "advanced": 0.455,
+      "resolved_n": 5,
+      "refuted_n": 2,
+      "mean_future_papers": 4.98
+    },
+    "str_type_unexplained_absent": {
+      "n": 141,
+      "addressed": 0.433,
+      "advanced": 0.397,
+      "resolved_n": 1,
+      "refuted_n": 1,
+      "mean_future_papers": 3.72
+    },
+    "str_type_method": {
+      "n": 61,
+      "addressed": 0.459,
+      "advanced": 0.443,
+      "resolved_n": 0,
+      "refuted_n": 0,
+      "mean_future_papers": 5.72
+    },
+    "str_type_method_absent": {
+      "n": 313,
+      "addressed": 0.466,
+      "advanced": 0.431,
+      "resolved_n": 6,
+      "refuted_n": 3,
+      "mean_future_papers": 4.27
+    },
+    "str_type_stance": {
+      "n": 20,
+      "addressed": 0.55,
+      "advanced": 0.5,
+      "resolved_n": 1,
+      "refuted_n": 0,
+      "mean_future_papers": 1.95
+    },
+    "str_type_stance_absent": {
+      "n": 354,
+      "addressed": 0.46,
+      "advanced": 0.429,
+      "resolved_n": 5,
+      "refuted_n": 3,
+      "mean_future_papers": 4.65
+    },
+    "str_quantified": {
+      "n": 63,
+      "addressed": 0.476,
+      "advanced": 0.413,
+      "resolved_n": 3,
+      "refuted_n": 3,
+      "mean_future_papers": 4.13
+    },
+    "str_quantified_absent": {
+      "n": 311,
+      "addressed": 0.463,
+      "advanced": 0.437,
+      "resolved_n": 3,
+      "refuted_n": 0,
+      "mean_future_papers": 4.58
+    },
+    "cross_facility": {
+      "n": 12,
+      "addressed": 0.75,
+      "advanced": 0.75,
+      "resolved_n": 0,
+      "refuted_n": 0,
+      "mean_future_papers": 3.75
+    },
+    "single_facility_or_none": {
+      "n": 362,
+      "addressed": 0.456,
+      "advanced": 0.423,
+      "resolved_n": 6,
+      "refuted_n": 3,
+      "mean_future_papers": 4.53
+    },
+    "cluster_2": {
+      "n": 71,
+      "addressed": 0.338,
+      "advanced": 0.282,
+      "resolved_n": 1,
+      "refuted_n": 1,
+      "mean_future_papers": 2.27
+    },
+    "cluster_3": {
+      "n": 59,
+      "addressed": 0.305,
+      "advanced": 0.271,
+      "resolved_n": 2,
+      "refuted_n": 1,
+      "mean_future_papers": 2.66
+    },
+    "cluster_4": {
+      "n": 244,
+      "addressed": 0.541,
+      "advanced": 0.516,
+      "resolved_n": 3,
+      "refuted_n": 1,
+      "mean_future_papers": 5.6
+    },
+    "year_spread_wide": {
+      "n": 144,
+      "addressed": 0.444,
+      "advanced": 0.41,
+      "resolved_n": 3,
+      "refuted_n": 1,
+      "mean_future_papers": 5.08
+    },
+    "year_spread_narrow": {
+      "n": 230,
+      "addressed": 0.478,
+      "advanced": 0.448,
+      "resolved_n": 3,
+      "refuted_n": 2,
+      "mean_future_papers": 4.14
+    },
+    "recurrent_tension": {
+      "n": 194,
+      "addressed": 0.485,
+      "advanced": 0.443,
+      "resolved_n": 6,
+      "refuted_n": 3,
+      "mean_future_papers": 4.1
+    },
+    "first_seen_tension": {
+      "n": 180,
+      "addressed": 0.444,
+      "advanced": 0.422,
+      "resolved_n": 0,
+      "refuted_n": 0,
+      "mean_future_papers": 4.94
+    },
+    "fresh_evidence": {
+      "n": 230,
+      "addressed": 0.478,
+      "advanced": 0.443,
+      "resolved_n": 4,
+      "refuted_n": 2,
+      "mean_future_papers": 5.5
+    },
+    "stale_evidence": {
+      "n": 144,
+      "addressed": 0.444,
+      "advanced": 0.417,
+      "resolved_n": 2,
+      "refuted_n": 1,
+      "mean_future_papers": 2.92
+    }
+  },
+  "controlled_effects": [
+    {
+      "feature": "str_n_claims",
+      "beta_addressed": 0.4513,
+      "p_addressed": 0.0012,
+      "beta_log_papers": 0.1163,
+      "p_log_papers": 0.0343
+    },
+    {
+      "feature": "str_n_papers",
+      "beta_addressed": 0.4513,
+      "p_addressed": 0.0012,
+      "beta_log_papers": 0.1163,
+      "p_log_papers": 0.0343
+    },
+    {
+      "feature": "str_year_spread",
+      "beta_addressed": 0.079,
+      "p_addressed": 0.4984,
+      "beta_log_papers": 0.0012,
+      "p_log_papers": 0.9808
+    },
+    {
+      "feature": "str_newest_age",
+      "beta_addressed": -0.139,
+      "p_addressed": 0.2294,
+      "beta_log_papers": -0.123,
+      "p_log_papers": 0.0108
+    },
+    {
+      "feature": "str_oldest_age",
+      "beta_addressed": -0.0608,
+      "p_addressed": 0.6234,
+      "beta_log_papers": -0.1661,
+      "p_log_papers": 0.0023
+    },
+    {
+      "feature": "str_type_contradiction",
+      "beta_addressed": 0.2987,
+      "p_addressed": 0.014,
+      "beta_log_papers": -0.0623,
+      "p_log_papers": 0.1993
+    },
+    {
+      "feature": "str_type_unexplained",
+      "beta_addressed": 0.1941,
+      "p_addressed": 0.0983,
+      "beta_log_papers": 0.0188,
+      "p_log_papers": 0.7061
+    },
+    {
+      "feature": "str_type_method",
+      "beta_addressed": -0.1086,
+      "p_addressed": 0.3414,
+      "beta_log_papers": 0.0587,
+      "p_log_papers": 0.2391
+    },
+    {
+      "feature": "str_type_stance",
+      "beta_addressed": 0.1055,
+      "p_addressed": 0.3555,
+      "beta_log_papers": -0.0444,
+      "p_log_papers": 0.3513
+    },
+    {
+      "feature": "str_quantified",
+      "beta_addressed": -0.0381,
+      "p_addressed": 0.7342,
+      "beta_log_papers": 0.0212,
+      "p_log_papers": 0.662
+    },
+    {
+      "feature": "str_max_sigma",
+      "beta_addressed": -0.0835,
+      "p_addressed": 0.4665,
+      "beta_log_papers": 0.0041,
+      "p_log_papers": 0.933
+    },
+    {
+      "feature": "str_n_facilities",
+      "beta_addressed": 0.0904,
+      "p_addressed": 0.4292,
+      "beta_log_papers": 0.0835,
+      "p_log_papers": 0.0926
+    },
+    {
+      "feature": "str_cross_facility",
+      "beta_addressed": 0.1689,
+      "p_addressed": 0.1725,
+      "beta_log_papers": -0.0265,
+      "p_log_papers": 0.5906
+    },
+    {
+      "feature": "str_recurrent",
+      "beta_addressed": 0.084,
+      "p_addressed": 0.4898,
+      "beta_log_papers": -0.0092,
+      "p_log_papers": 0.86
+    }
+  ],
+  "prior_model": {
+    "n_train": 294,
+    "n_test": 80,
+    "test_base_rate": 0.537,
+    "auc_structure_only": 0.586,
+    "coefficients": [
+      {
+        "feature": "str_type_contradiction",
+        "coef": 0.336
+      },
+      {
+        "feature": "str_n_claims",
+        "coef": 0.25
+      },
+      {
+        "feature": "str_n_papers",
+        "coef": 0.25
+      },
+      {
+        "feature": "str_oldest_age",
+        "coef": -0.197
+      },
+      {
+        "feature": "str_year_spread",
+        "coef": -0.13
+      },
+      {
+        "feature": "str_n_facilities",
+        "coef": 0.099
+      },
+      {
+        "feature": "str_type_method",
+        "coef": -0.095
+      },
+      {
+        "feature": "str_quantified",
+        "coef": -0.087
+      },
+      {
+        "feature": "str_cross_facility",
+        "coef": 0.073
+      },
+      {
+        "feature": "str_type_stance",
+        "coef": 0.053
+      },
+      {
+        "feature": "str_recurrent",
+        "coef": -0.035
+      },
+      {
+        "feature": "str_max_sigma",
+        "coef": 0.031
+      },
+      {
+        "feature": "str_newest_age",
+        "coef": -0.029
+      },
+      {
+        "feature": "str_type_unexplained",
+        "coef": 0.014
+      }
+    ]
+  },
+  "resolved_question_profiles": [
+    {
+      "question_id": "gravitational_waves-2014-002",
+      "answer_status": "answered",
+      "subfield": "gravitational_waves",
+      "cutoff_year": 2014,
+      "str_n_claims": 4,
+      "str_n_papers": 4,
+      "str_year_spread": 7,
+      "str_newest_age": 0,
+      "str_oldest_age": 7,
+      "str_type_contradiction": 1,
+      "str_type_unexplained": 1,
+      "str_type_method": 0,
+      "str_type_stance": 1,
+      "str_quantified": 0,
+      "str_max_sigma": 0.0,
+      "str_n_facilities": 1,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    },
+    {
+      "question_id": "fast_radio_bursts-2016-003",
+      "answer_status": "premise_refuted",
+      "subfield": "fast_radio_bursts",
+      "cutoff_year": 2016,
+      "str_n_claims": 2,
+      "str_n_papers": 2,
+      "str_year_spread": 0,
+      "str_newest_age": 2,
+      "str_oldest_age": 2,
+      "str_type_contradiction": 1,
+      "str_type_unexplained": 0,
+      "str_type_method": 0,
+      "str_type_stance": 0,
+      "str_quantified": 1,
+      "str_max_sigma": 2.9,
+      "str_n_facilities": 0,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    },
+    {
+      "question_id": "exoplanet_atmospheres-2018-009",
+      "answer_status": "answered",
+      "subfield": "exoplanet_atmospheres",
+      "cutoff_year": 2018,
+      "str_n_claims": 4,
+      "str_n_papers": 4,
+      "str_year_spread": 6,
+      "str_newest_age": 0,
+      "str_oldest_age": 6,
+      "str_type_contradiction": 1,
+      "str_type_unexplained": 1,
+      "str_type_method": 0,
+      "str_type_stance": 0,
+      "str_quantified": 0,
+      "str_max_sigma": 0.0,
+      "str_n_facilities": 1,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    },
+    {
+      "question_id": "fast_radio_bursts-2018-003",
+      "answer_status": "premise_refuted",
+      "subfield": "fast_radio_bursts",
+      "cutoff_year": 2018,
+      "str_n_claims": 3,
+      "str_n_papers": 3,
+      "str_year_spread": 3,
+      "str_newest_age": 1,
+      "str_oldest_age": 4,
+      "str_type_contradiction": 1,
+      "str_type_unexplained": 1,
+      "str_type_method": 0,
+      "str_type_stance": 0,
+      "str_quantified": 1,
+      "str_max_sigma": 2.9,
+      "str_n_facilities": 0,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    },
+    {
+      "question_id": "fast_radio_bursts-2020-003",
+      "answer_status": "premise_refuted",
+      "subfield": "fast_radio_bursts",
+      "cutoff_year": 2020,
+      "str_n_claims": 4,
+      "str_n_papers": 4,
+      "str_year_spread": 6,
+      "str_newest_age": 0,
+      "str_oldest_age": 6,
+      "str_type_contradiction": 1,
+      "str_type_unexplained": 1,
+      "str_type_method": 0,
+      "str_type_stance": 0,
+      "str_quantified": 1,
+      "str_max_sigma": 2.9,
+      "str_n_facilities": 0,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    },
+    {
+      "question_id": "gravitational_waves-2020-008",
+      "answer_status": "answered",
+      "subfield": "gravitational_waves",
+      "cutoff_year": 2020,
+      "str_n_claims": 3,
+      "str_n_papers": 3,
+      "str_year_spread": 4,
+      "str_newest_age": 3,
+      "str_oldest_age": 7,
+      "str_type_contradiction": 0,
+      "str_type_unexplained": 1,
+      "str_type_method": 0,
+      "str_type_stance": 0,
+      "str_quantified": 0,
+      "str_max_sigma": 0.0,
+      "str_n_facilities": 1,
+      "str_cross_facility": 0,
+      "str_recurrent": 1
+    }
+  ]
+}
