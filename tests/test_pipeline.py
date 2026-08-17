@@ -147,3 +147,44 @@ def test_env_features_growth():
     assert env["env_pub_volume_3y"] == 135
     assert env["env_growth_ratio"] > 1
     assert env["env_review_count_3y"] == 3
+
+
+def test_structure_features_tension_cluster():
+    from pipeline import structure
+
+    q = {
+        "question_id": "exoplanet_atmospheres-2012-900",
+        "cutoff_year": 2012,
+        "source_material": {
+            "cluster": [
+                {
+                    "arxiv_id": "1005.00001",
+                    "published": "2010-05-01",
+                    "sentence": "We detect water absorption with HST at 4.1-sigma significance.",
+                },
+                {
+                    "arxiv_id": "1105.00002",
+                    "published": "2011-05-01",
+                    "sentence": "Spitzer data show no evidence of water, inconsistent with earlier claims.",
+                },
+            ]
+        },
+    }
+    s = structure.structure_features(q)
+    assert s["str_n_claims"] == 2
+    assert s["str_n_papers"] == 2
+    assert s["str_year_spread"] == 1
+    assert s["str_newest_age"] == 1
+    assert s["str_type_contradiction"] == 1
+    assert s["str_type_stance"] == 1
+    assert s["str_quantified"] == 1
+    assert s["str_max_sigma"] == pytest.approx(4.1)
+    assert s["str_n_facilities"] == 2
+    assert s["str_cross_facility"] == 1
+
+
+def test_structure_features_none_without_cluster():
+    from pipeline import structure
+
+    assert structure.structure_features({"source_material": {"statement": "x"}, "cutoff_year": 2012}) is None
+    assert structure.structure_features({"source_material": None, "cutoff_year": 2012}) is None
