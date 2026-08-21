@@ -45,8 +45,9 @@ rationales are released.
 A scientific question is an instrument for allocating future effort. Yet
 the standard way of evaluating machine-generated research questions — LLM
 or expert panels scoring "importance" and "novelty" at generation time —
-measures how a question *sounds*, not what it *does*. Paper 2 of this
-series introduced historical backtesting as the alternative: freeze
+measures how a question *sounds*, not what it *does*. [Paper 2 of this
+series](https://arxiv.org/abs/2608.16795) introduced historical
+backtesting as the alternative: freeze
 questions using only pre-cutoff literature, then observe what the
 scientific community actually did afterwards. Its sealed v1.1 release has
 since grown from a ten-question pilot into a benchmark family — a scaled
@@ -87,9 +88,11 @@ subfields, and sources.
 
 ## 2. Related framing
 
-Paper 1 built an evidence-graph system that generates questions from
-cross-paper observational tensions. Paper 2 defined the backtesting
-benchmark and showed, in its pilot, that future literature substantively
+[Paper 1](https://arxiv.org/abs/2608.09968) built an evidence-graph
+system that generates questions from cross-paper observational
+tensions. [Paper 2](https://arxiv.org/abs/2608.16795) defined the
+backtesting benchmark and showed, in its pilot, that future literature
+substantively
 engaged all ten frozen exoplanet-atmosphere questions (one premise — a
 strongly subsolar water abundance for HD 209458 b — later refuted by
 three independent analyses, the exact convergence the question called
@@ -668,3 +671,14 @@ pipeline stage is a single script, all LLM calls are cached and pinned to
 temperature 0, and the offline test suite plus a temporal-isolation
 validator run in CI. Rebuilding the corpus from the public arXiv API and
 regenerating the dataset reproduced the frozen questions byte-for-byte.
+
+## References
+
+1. Hui Mao. *Evidence-Based Scientific Question Discovery: A Framework
+   with Historical Backtesting*. arXiv:2608.09968, 2026.
+   <https://arxiv.org/abs/2608.09968>. Referred to as "Paper 1"
+   throughout.
+2. Hui Mao. *Historical Backtesting for Scientific Question Discovery:
+   A Protocol and Astronomy Pilot*. arXiv:2608.16795 (v1.1, sealed),
+   2026. <https://arxiv.org/abs/2608.16795>. Referred to as "Paper 2"
+   throughout.

@@ -4,8 +4,10 @@
 from the structure of research questions and their evidence context.**
 
 This repository (Paper 3 of the series) scales the historical-backtesting
-idea of [Paper 1](https://github.com/nonameisready/scientific-question-discovery)
-and [Paper 2](https://github.com/nonameisready/scientific-question-discovery-benchmark)
+idea of Paper 1 ([arXiv:2608.09968](https://arxiv.org/abs/2608.09968),
+[code](https://github.com/nonameisready/scientific-question-discovery))
+and Paper 2 ([arXiv:2608.16795](https://arxiv.org/abs/2608.16795),
+[code](https://github.com/nonameisready/scientific-question-discovery-benchmark))
 from a 10-question case study into a supervised-learning dataset of ~1,000
 astronomy research questions across **5 historical cutoffs × 8 subfields ×
 4 generation sources**, each with a full cutoff-time feature record and a
