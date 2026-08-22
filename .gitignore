@@ -7,3 +7,4 @@ data/cache/
 *.aux
 *.out
 paper/*.log
+hf/build/
