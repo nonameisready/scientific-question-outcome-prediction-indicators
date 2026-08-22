@@ -20,7 +20,7 @@ import argparse
 import json
 from pathlib import Path
 
-REPO_ID = "nonameisready/scientific-question-outcomes"
+REPO_ID = "huiluckylucky/scientific-question-outcomes"
 
 ROOT = Path(__file__).resolve().parents[1]
 QUESTIONS = ROOT / "data/questions/questions_v1.jsonl"

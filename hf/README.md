@@ -138,8 +138,8 @@ addressed by accepting topical overlap; the per-candidate rubric brings it to
 ```python
 from datasets import load_dataset
 
-ds = load_dataset("nonameisready/scientific-question-outcomes")
-structure = load_dataset("nonameisready/scientific-question-outcomes", "structure")
+ds = load_dataset("huiluckylucky/scientific-question-outcomes")
+structure = load_dataset("huiluckylucky/scientific-question-outcomes", "structure")
 ```
 
 ## Papers and code
@@ -158,7 +158,7 @@ structure = load_dataset("nonameisready/scientific-question-outcomes", "structur
   title  = {Scientific Question Outcomes: 980 Research Questions with
             Five-Year Historical Outcome Labels},
   year   = {2026},
-  url    = {https://huggingface.co/datasets/nonameisready/scientific-question-outcomes}
+  url    = {https://huggingface.co/datasets/huiluckylucky/scientific-question-outcomes}
 }
 ```
 
