@@ -133,6 +133,21 @@ seeds/temperature 0, so re-runs are deterministic given the cache. The
 frozen dataset (`data/questions`, `data/features`, `data/labels`) and all
 results are committed; only the raw harvest and cache are not.
 
+## Dataset on the Hub
+
+The frozen dataset is also published at
+[huggingface.co/datasets/huiluckylucky/scientific-question-outcomes](https://huggingface.co/datasets/huiluckylucky/scientific-question-outcomes),
+with the questions/features/labels joined into one table plus the
+structure-prior and second-judge subsets as separate configs:
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("huiluckylucky/scientific-question-outcomes")
+```
+
+`hf/upload.py` rebuilds and republishes it from the frozen files here.
+
 ## Manuscript
 
 The manuscript lives at [`paper/paper3.md`](paper/paper3.md).

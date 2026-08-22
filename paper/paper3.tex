@@ -843,6 +843,10 @@ pipeline stage is a single script, all LLM calls are cached and pinned
 to temperature 0, and the offline test suite plus a temporal-isolation
 validator run in CI. Rebuilding the corpus from the public arXiv API and
 regenerating the dataset reproduced the frozen questions byte-for-byte.
+The frozen dataset is additionally published on the Hugging Face Hub at
+\href{https://huggingface.co/datasets/huiluckylucky/scientific-question-outcomes}{\texttt{huiluckylucky/scientific-question-outcomes}},
+loadable in one call, with the structure-prior and second-judge subsets as
+separate configurations.
 
 \begin{thebibliography}{9}
 
