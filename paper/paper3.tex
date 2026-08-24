@@ -78,12 +78,32 @@ judge rationales are released.
 
 \section{Introduction}
 
-A scientific question is an instrument for allocating future effort. Yet
-the standard way of evaluating machine-generated research questions ---
-LLM or expert panels scoring ``importance'' and ``novelty'' at generation
-time --- measures how a question \emph{sounds}, not what it \emph{does}.
-Paper 2 of this series~\cite{paper2} introduced historical backtesting
-as the alternative: freeze questions using only pre-cutoff literature, then
+How scientific attention gets allocated is a central concern of the science
+of science, and it has been answered almost entirely at the level of papers
+and careers: which combinations of prior work earn citations
+\cite{uzzi2013}, which research strategies scientists actually adopt
+\cite{foster2015}, how impact is distributed across a field and a lifetime
+\cite{fortunato2018,wang2021}. The unit that precedes all of these --- the
+research question itself, the bet placed before any paper exists --- has no
+comparable empirical treatment. The obstacle is not interest but
+measurement: questions leave no bibliographic record, so there is nothing to
+attach an outcome to.
+
+This paper constructs those outcomes. We freeze research questions at
+historical cutoffs using only the literature available at the time, then
+read off what the following five years of literature did with each one. The
+resulting dataset makes a question-level analogue of the science-of-science
+program possible: rather than asking which papers were cited, we ask which
+\emph{questions} the community took up, resolved, or overturned, and which
+of their cutoff-time properties predicted that.
+
+The same construction answers a second, narrower question that motivated the
+series. Machine-generated research questions are currently evaluated by LLM
+or expert panels scoring ``importance'' and ``novelty'' at generation time
+--- a measurement of how a question \emph{sounds}, not of what it
+\emph{does} \cite{si2024}. Paper 2 of this series~\cite{paper2} introduced
+historical backtesting as the alternative: freeze questions using only
+pre-cutoff literature, then
 observe what the scientific community actually did afterwards. Its
 sealed v1.1 release has since grown from a ten-question pilot into a
 benchmark family --- a scaled 424-question baseline instance, a
@@ -126,7 +146,54 @@ premise revision --- with controls for field popularity, instrument eras,
 and generation method, and with stability checks across cutoffs,
 subfields, and sources.
 
-\section{Related framing}
+\section{Related work}
+
+\subsection{Problem choice in the science of science}
+
+The choice of research problem is treated in this literature as a strategic
+act under uncertainty. Foster, Rzhetsky and Evans~\cite{foster2015},
+analysing millions of MEDLINE abstracts, showed that scientists
+overwhelmingly pursue conservative strategies --- deepening established
+chemical relationships rather than bridging distant ones --- and that this
+conservatism is individually rational while collectively suboptimal, a
+finding later formalised as a question of how a field should allocate its
+collective search~\cite{rzhetsky2015}. Uzzi et al.~\cite{uzzi2013} reached a
+compatible conclusion from the citation side: the highest-impact papers
+combine a conventional core with a tail of novelty, so novelty by itself is
+not the operative virtue. Fortunato et al.~\cite{fortunato2018} survey the
+broader program, and Wang and Barabási~\cite{wang2021} give it book-length
+treatment.
+
+Our results speak directly to this line. The predictor we find strongest ---
+prior recognition of a question in review articles --- is a question-level
+measurement of exactly the conservatism Foster et al.\ document at the level
+of research strategy, and our null result for semantic novelty is what Uzzi
+et al.'s conventionality finding would predict. The contribution is the unit
+of analysis: this literature observes what scientists \emph{did} and infers
+the strategy, whereas we fix the candidate questions in advance and observe
+which were taken up. Because the questions are frozen before the outcome
+window opens, and because deliberately weak controls are included, the
+design separates properties of a question from properties of the field it
+sits in.
+
+\subsection{Generating and evaluating research questions}
+
+Machine generation of research questions and hypotheses has a long lineage,
+from literature-based discovery~\cite{swanson1986} to LLM systems that
+propose ideas or run entire studies~\cite{lu2024,wang2024,baek2024}, and it
+has been argued that question-asking is itself a core capability on the path
+to more general scientific intelligence~\cite{kitano2021}. Evaluation has
+not kept pace. The most rigorous instance of the dominant paradigm, Si et
+al.'s expert study~\cite{si2024}, still measures opinion at generation time
+rather than what the ideas turned out to be worth. Outcome-based
+alternatives have appeared only recently and independently:
+HindSight~\cite{hindsight2026} matches generated ideas against papers
+published after a temporal cutoff and finds that LLM-judged novelty
+correlates \emph{negatively} with realised impact, and the
+ideation--execution study~\cite{ideationgap2025} had human researchers
+execute both LLM and human ideas, finding that the LLM ideas rated higher
+before execution scored lower after it. Both converge with our null results
+for novelty from different fields and different methods.
 
 Paper 1~\cite{paper1} built an evidence-graph system that generates
 questions from cross-paper observational tensions. Paper
@@ -155,11 +222,31 @@ $\kappa=0.17$ --- indicting the outcome taxonomy, not any particular
 judge, and capping what absolute outcome rates can mean. Both papers
 evaluate question \emph{generators}; neither learns question-level
 predictors, which is the question this paper addresses: \emph{what,
-measurably, makes a question one the community will take up?} Related
-work on predicting scientific impact operates at the paper or grant level
-(citation prediction, idea novelty metrics); to our knowledge no prior
-dataset attaches future-outcome labels to \emph{questions} frozen at
-multiple historical cutoffs with controlled generation sources.
+measurably, makes a question one the community will take up?}
+
+\subsection{Outcome labels and judge reliability}
+
+Scoring a strategy on held-out history is standard in quantitative finance,
+along with its documented failure mode --- overfitting to the backtest
+itself~\cite{bailey2014} --- which motivates the freezing rules we inherit;
+forecasting benchmarks apply the same logic to events resolving after
+training~\cite{zou2022}, and SWE-bench~\cite{jimenez2024} showed how frozen
+data plus a fixed task format can reorganise a field around measurable
+progress.
+
+Because our outcome labels are assigned by a language model, their
+reliability is itself a measured quantity rather than an assumption. Using
+LLMs as judges is now routine~\cite{zheng2023}, and so is certifying them by
+agreement with other models --- a practice Paper 2's seven-rater study shows
+to be badly optimistic: on an analogous taxonomy two independent human
+annotators agreed at $\kappa = 0.17$, below every model--model pair. We
+therefore report agreement with the conventional interpretive
+benchmarks~\cite{landis1977} attached, treat all absolute rates as
+rater-relative, and hold the judge fixed within every comparison.
+
+To our knowledge no prior dataset attaches future-outcome labels to
+\emph{questions} frozen at multiple historical cutoffs with controlled
+generation sources and negative controls.
 
 \section{Dataset construction}
 
@@ -853,7 +940,99 @@ The frozen dataset is additionally published on the Hugging Face Hub at
 loadable in one call, with the structure-prior and second-judge subsets as
 separate configurations.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
+
+\bibitem{baek2024}
+Jinheon Baek, Sujay Kumar Jauhar, Silviu Cucerzan, and Sung Ju Hwang.
+ResearchAgent: Iterative Research Idea Generation over Scientific Literature
+with Large Language Models. arXiv:2404.07738, 2024.
+
+\bibitem{bailey2014}
+David H. Bailey, Jonathan M. Borwein, Marcos L\'opez de Prado, and Qiji Jim
+Zhu. Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest
+Overfitting on Out-of-Sample Performance. \emph{Notices of the American
+Mathematical Society}, 61(5):458--471, 2014.
+
+\bibitem{fortunato2018}
+Santo Fortunato, Carl T. Bergstrom, Katy B\"orner, James A. Evans, Dirk
+Helbing, Sta\v{s}a Milojevi\'c, Alexander M. Petersen, Filippo Radicchi,
+Roberta Sinatra, Brian Uzzi, Alessandro Vespignani, Ludo Waltman, Dashun
+Wang, and Albert-L\'aszl\'o Barab\'asi. Science of science.
+\emph{Science}, 359(6379):eaao0185, 2018.
+
+\bibitem{foster2015}
+Jacob G. Foster, Andrey Rzhetsky, and James A. Evans. Tradition and
+Innovation in Scientists' Research Strategies. \emph{American Sociological
+Review}, 80(5):875--908, 2015.
+
+\bibitem{hindsight2026}
+Bo Jiang. HindSight: Evaluating LLM-Generated Research Ideas via Future
+Impact. arXiv:2603.15164, 2026.
+
+\bibitem{jimenez2024}
+Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
+Press, and Karthik Narasimhan. SWE-bench: Can Language Models Resolve
+Real-World GitHub Issues? In \emph{International Conference on Learning
+Representations}, 2024.
+
+\bibitem{kitano2021}
+Hiroaki Kitano. Nobel Turing Challenge: creating the engine for scientific
+discovery. \emph{npj Systems Biology and Applications}, 7:29, 2021.
+
+\bibitem{landis1977}
+J. Richard Landis and Gary G. Koch. The Measurement of Observer Agreement
+for Categorical Data. \emph{Biometrics}, 33(1):159--174, 1977.
+
+\bibitem{lu2024}
+Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and
+David Ha. The AI Scientist: Towards Fully Automated Open-Ended Scientific
+Discovery. arXiv:2408.06292, 2024.
+
+\bibitem{rzhetsky2015}
+Andrey Rzhetsky, Jacob G. Foster, Ian T. Foster, and James A. Evans.
+Choosing experiments to accelerate collective discovery. \emph{Proceedings
+of the National Academy of Sciences}, 112(47):14569--14574, 2015.
+
+\bibitem{si2024}
+Chenglei Si, Diyi Yang, and Tatsunori Hashimoto. Can LLMs Generate Novel
+Research Ideas? A Large-Scale Human Study with 100+ NLP Researchers.
+arXiv:2409.04109, 2024.
+
+\bibitem{ideationgap2025}
+Chenglei Si, Tatsunori Hashimoto, and Diyi Yang. The Ideation--Execution
+Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas.
+arXiv:2506.20803, 2025.
+
+\bibitem{swanson1986}
+Don R. Swanson. Fish Oil, Raynaud's Syndrome, and Undiscovered Public
+Knowledge. \emph{Perspectives in Biology and Medicine}, 30(1):7--18, 1986.
+
+\bibitem{uzzi2013}
+Brian Uzzi, Satyam Mukherjee, Michael Stringer, and Ben Jones. Atypical
+Combinations and Scientific Impact. \emph{Science}, 342(6157):468--472,
+2013.
+
+\bibitem{wang2021}
+Dashun Wang and Albert-L\'aszl\'o Barab\'asi. \emph{The Science of Science}.
+Cambridge University Press, 2021.
+
+\bibitem{wang2024}
+Qingyun Wang, Doug Downey, Heng Ji, and Tom Hope. SciMON: Scientific
+Inspiration Machines Optimized for Novelty. In \emph{Proceedings of the 62nd
+Annual Meeting of the Association for Computational Linguistics}, 2024.
+
+\bibitem{zheng2023}
+Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu,
+Yonghao Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric P. Xing, Hao Zhang,
+Joseph E. Gonzalez, and Ion Stoica. Judging LLM-as-a-Judge with MT-Bench and
+Chatbot Arena. In \emph{Advances in Neural Information Processing Systems},
+2023.
+
+\bibitem{zou2022}
+Andy Zou, Tristan Xiao, Ryan Jia, Joe Kwon, Mantas Mazeika, Richard Li, Dawn
+Song, Jacob Steinhardt, Owain Evans, and Dan Hendrycks. Forecasting Future
+World Events with Neural Networks. In \emph{Advances in Neural Information
+Processing Systems}, 2022.
 
 \bibitem{paper1}
 Hui Mao.

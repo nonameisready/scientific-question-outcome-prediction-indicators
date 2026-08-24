@@ -47,10 +47,30 @@ rationales are released.
 
 ## 1. Introduction
 
-A scientific question is an instrument for allocating future effort. Yet
-the standard way of evaluating machine-generated research questions — LLM
-or expert panels scoring "importance" and "novelty" at generation time —
-measures how a question *sounds*, not what it *does*. [Paper 2 of this
+How scientific attention gets allocated is a central concern of the science
+of science, and it has been answered almost entirely at the level of papers
+and careers: which combinations of prior work earn citations (Uzzi et al.,
+2013), which research strategies scientists actually adopt (Foster et al.,
+2015), how impact is distributed across a field and a lifetime (Fortunato
+et al., 2018; Wang & Barabási, 2021). The unit that precedes all of these —
+the research question itself, the bet placed before any paper exists — has
+no comparable empirical treatment. The obstacle is not interest but
+measurement: questions leave no bibliographic record, so there is nothing
+to attach an outcome to.
+
+This paper constructs those outcomes. We freeze research questions at
+historical cutoffs using only the literature available at the time, then
+read off what the following five years of literature did with each one. The
+resulting dataset makes a question-level analogue of the science-of-science
+program possible: rather than asking which papers were cited, we ask which
+*questions* the community took up, resolved, or overturned, and which of
+their cutoff-time properties predicted that.
+
+The same construction answers a second, narrower question that motivated
+the series. Machine-generated research questions are currently evaluated by
+LLM or expert panels scoring "importance" and "novelty" at generation time
+— a measurement of how a question *sounds*, not of what it *does* (Si et
+al., 2024). [Paper 2 of this
 series](https://arxiv.org/abs/2608.16795) introduced historical
 backtesting as the alternative: freeze
 questions using only pre-cutoff literature, then observe what the
@@ -91,7 +111,52 @@ premise revision — with controls for field popularity, instrument eras,
 and generation method, and with stability checks across cutoffs,
 subfields, and sources.
 
-## 2. Related framing
+## 2. Related work
+
+### 2.1 Problem choice in the science of science
+
+The choice of research problem is treated in this literature as a strategic
+act under uncertainty. Foster, Rzhetsky and Evans (2015), analysing
+millions of MEDLINE abstracts, showed that scientists overwhelmingly pursue
+conservative strategies — deepening established relationships rather than
+bridging distant ones — and that this conservatism is individually rational
+while collectively suboptimal, later formalised as a question of how a
+field should allocate its collective search (Rzhetsky et al., 2015). Uzzi
+et al. (2013) reached a compatible conclusion from the citation side: the
+highest-impact papers combine a conventional core with a tail of novelty,
+so novelty by itself is not the operative virtue. Fortunato et al. (2018)
+survey the broader program; Wang and Barabási (2021) give it book-length
+treatment.
+
+Our results speak directly to this line. The predictor we find strongest —
+prior recognition of a question in review articles — is a question-level
+measurement of exactly the conservatism Foster et al. document at the level
+of research strategy, and our null result for semantic novelty is what
+Uzzi et al.'s conventionality finding would predict. The contribution is
+the unit of analysis: this literature observes what scientists *did* and
+infers the strategy, whereas we fix the candidate questions in advance and
+observe which were taken up. Because the questions are frozen before the
+outcome window opens, and because deliberately weak controls are included,
+the design separates properties of a question from properties of the field
+it sits in.
+
+### 2.2 Generating and evaluating research questions
+
+Machine generation of research questions and hypotheses has a long lineage,
+from literature-based discovery (Swanson, 1986) to LLM systems that propose
+ideas or run entire studies (Lu et al., 2024; Wang et al., 2024; Baek et
+al., 2024), and question-asking has been argued to be a core capability on
+the path to more general scientific intelligence (Kitano, 2021). Evaluation
+has not kept pace. The most rigorous instance of the dominant paradigm, Si
+et al.'s expert study (2024), still measures opinion at generation time
+rather than what the ideas turned out to be worth. Outcome-based
+alternatives have appeared only recently and independently: HindSight
+(Jiang, 2026) matches generated ideas against papers published after a
+temporal cutoff and finds LLM-judged novelty correlates *negatively* with
+realised impact; the ideation–execution study (Si et al., 2025) had human
+researchers execute both LLM and human ideas, finding that the LLM ideas
+rated higher before execution scored lower after it. Both converge with our
+null results for novelty from different fields and different methods.
 
 [Paper 1](https://arxiv.org/abs/2608.09968) built an evidence-graph
 system that generates questions from cross-paper observational
@@ -120,11 +185,31 @@ agree at only κ=0.17 — indicting the outcome taxonomy, not any
 particular judge, and capping what absolute outcome rates can mean.
 Both papers evaluate question *generators*; neither learns
 question-level predictors, which is the question this paper addresses:
-*what, measurably, makes a question one the community will take up?* Related
-work on predicting scientific impact operates at the paper or grant level
-(citation prediction, idea novelty metrics); to our knowledge no prior
-dataset attaches future-outcome labels to *questions* frozen at multiple
-historical cutoffs with controlled generation sources.
+*what, measurably, makes a question one the community will take up?*
+
+### 2.3 Outcome labels and judge reliability
+
+Scoring a strategy on held-out history is standard in quantitative finance,
+along with its documented failure mode — overfitting to the backtest itself
+(Bailey et al., 2014) — which motivates the freezing rules we inherit;
+forecasting benchmarks apply the same logic to events resolving after
+training (Zou et al., 2022), and SWE-bench (Jimenez et al., 2024) showed
+how frozen data plus a fixed task format can reorganise a field around
+measurable progress.
+
+Because our outcome labels are assigned by a language model, their
+reliability is itself a measured quantity rather than an assumption. Using
+LLMs as judges is now routine (Zheng et al., 2023), and so is certifying
+them by agreement with other models — a practice Paper 2's seven-rater
+study shows to be badly optimistic: on an analogous taxonomy two
+independent human annotators agreed at κ=0.17, below every model–model
+pair. We therefore report agreement with the conventional interpretive
+benchmarks (Landis & Koch, 1977) attached, treat all absolute rates as
+rater-relative, and hold the judge fixed within every comparison.
+
+To our knowledge no prior dataset attaches future-outcome labels to
+*questions* frozen at multiple historical cutoffs with controlled
+generation sources and negative controls.
 
 ## 3. Dataset construction
 
@@ -683,11 +768,74 @@ separate configurations.
 
 ## References
 
-1. Hui Mao. *Evidence-Based Scientific Question Discovery: A Framework
-   with Historical Backtesting*. arXiv:2608.09968, 2026.
-   <https://arxiv.org/abs/2608.09968>. Referred to as "Paper 1"
-   throughout.
-2. Hui Mao. *Historical Backtesting for Scientific Question Discovery:
-   A Protocol and Astronomy Pilot*. arXiv:2608.16795 (v1.1, sealed),
-   2026. <https://arxiv.org/abs/2608.16795>. Referred to as "Paper 2"
-   throughout.
+Baek, J., Jauhar, S. K., Cucerzan, S., & Hwang, S. J. (2024). ResearchAgent:
+Iterative Research Idea Generation over Scientific Literature with Large
+Language Models. arXiv:2404.07738.
+
+Bailey, D. H., Borwein, J. M., López de Prado, M., & Zhu, Q. J. (2014).
+Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest
+Overfitting on Out-of-Sample Performance. *Notices of the AMS*, 61(5),
+458–471.
+
+Fortunato, S., Bergstrom, C. T., Börner, K., Evans, J. A., Helbing, D.,
+Milojević, S., Petersen, A. M., Radicchi, F., Sinatra, R., Uzzi, B.,
+Vespignani, A., Waltman, L., Wang, D., & Barabási, A.-L. (2018). Science of
+science. *Science*, 359(6379), eaao0185.
+
+Foster, J. G., Rzhetsky, A., & Evans, J. A. (2015). Tradition and Innovation
+in Scientists' Research Strategies. *American Sociological Review*, 80(5),
+875–908.
+
+Jiang, B. (2026). HindSight: Evaluating LLM-Generated Research Ideas via
+Future Impact. arXiv:2603.15164.
+
+Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., &
+Narasimhan, K. (2024). SWE-bench: Can Language Models Resolve Real-World
+GitHub Issues? *ICLR*.
+
+Kitano, H. (2021). Nobel Turing Challenge: creating the engine for
+scientific discovery. *npj Systems Biology and Applications*, 7, 29.
+
+Landis, J. R., & Koch, G. G. (1977). The Measurement of Observer Agreement
+for Categorical Data. *Biometrics*, 33(1), 159–174.
+
+Lu, C., Lu, C., Lange, R. T., Foerster, J., Clune, J., & Ha, D. (2024). The
+AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery.
+arXiv:2408.06292.
+
+Mao, H. (2026a). Evidence-Based Scientific Question Discovery: A Framework
+with Historical Backtesting. arXiv:2608.09968. — "Paper 1".
+
+Mao, H. (2026b). Historical Backtesting for Scientific Question Discovery: A
+Protocol and Astronomy Pilot. arXiv:2608.16795 (v1.1, sealed). — "Paper 2".
+
+Rzhetsky, A., Foster, J. G., Foster, I. T., & Evans, J. A. (2015). Choosing
+experiments to accelerate collective discovery. *PNAS*, 112(47),
+14569–14574.
+
+Si, C., Yang, D., & Hashimoto, T. (2024). Can LLMs Generate Novel Research
+Ideas? A Large-Scale Human Study with 100+ NLP Researchers. arXiv:2409.04109.
+
+Si, C., Hashimoto, T., & Yang, D. (2025). The Ideation–Execution Gap:
+Execution Outcomes of LLM-Generated versus Human Research Ideas.
+arXiv:2506.20803.
+
+Swanson, D. R. (1986). Fish Oil, Raynaud's Syndrome, and Undiscovered Public
+Knowledge. *Perspectives in Biology and Medicine*, 30(1), 7–18.
+
+Uzzi, B., Mukherjee, S., Stringer, M., & Jones, B. (2013). Atypical
+Combinations and Scientific Impact. *Science*, 342(6157), 468–472.
+
+Wang, D., & Barabási, A.-L. (2021). *The Science of Science*. Cambridge
+University Press.
+
+Wang, Q., Downey, D., Ji, H., & Hope, T. (2024). SciMON: Scientific
+Inspiration Machines Optimized for Novelty. *ACL*.
+
+Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z.,
+Li, Z., Li, D., Xing, E. P., Zhang, H., Gonzalez, J. E., & Stoica, I. (2023).
+Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. *NeurIPS*.
+
+Zou, A., Xiao, T., Jia, R., Kwon, J., Mazeika, M., Li, R., Song, D.,
+Steinhardt, J., Evans, O., & Hendrycks, D. (2022). Forecasting Future World
+Events with Neural Networks. *NeurIPS*.
