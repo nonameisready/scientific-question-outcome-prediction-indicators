@@ -1,7 +1,7 @@
 # What Makes a Scientific Question Succeed? Predicting Future Attention, Resolution, and Premise Revision from Question Structure and Evidence Context
 
 **Hui Mao**
-Independent Researcher · `[EMAIL]`
+Independent Researcher · `hui.mao@alumni.upenn.edu` · ORCID [0009-0006-7249-4240](https://orcid.org/0009-0006-7249-4240)
 
 *Third in a series on temporally grounded evaluation of scientific question
 discovery; see [arXiv:2608.09968](https://arxiv.org/abs/2608.09968) and

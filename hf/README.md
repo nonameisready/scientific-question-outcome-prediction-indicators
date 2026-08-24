@@ -155,6 +155,7 @@ structure = load_dataset("huiluckylucky/scientific-question-outcomes", "structur
 ```bibtex
 @misc{mao2026questionoutcomes,
   author = {Hui Mao},
+  note   = {ORCID 0009-0006-7249-4240},
   title  = {Scientific Question Outcomes: 980 Research Questions with
             Five-Year Historical Outcome Labels},
   year   = {2026},
