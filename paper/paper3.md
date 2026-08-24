@@ -1,6 +1,11 @@
 # What Makes a Scientific Question Succeed? Predicting Future Attention, Resolution, and Premise Revision from Question Structure and Evidence Context
 
-**Paper 3 — temporally grounded predictor discovery for scientific questions**
+**Hui Mao**
+Independent Researcher · `[EMAIL]`
+
+*Third in a series on temporally grounded evaluation of scientific question
+discovery; see [arXiv:2608.09968](https://arxiv.org/abs/2608.09968) and
+[arXiv:2608.16795](https://arxiv.org/abs/2608.16795).*
 
 ## Abstract
 
