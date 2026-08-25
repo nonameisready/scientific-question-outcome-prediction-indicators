@@ -1,0 +1,65 @@
+% Separate title page for Journal of Informetrics submission.
+% Compile with: pdflatex titlepage.tex
+
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,urlcolor=blue!50!black,linkcolor=blue!50!black]{hyperref}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries What Makes a Scientific Question Succeed?}\\[0.5em]
+{\large Predicting Future Attention, Resolution, and Premise Revision\\
+from Question Structure and Evidence Context}
+\end{center}
+
+\vspace{2em}
+
+\noindent\textbf{Author}\\[0.4em]
+Hui Mao\\
+Independent Researcher\\
+ORCID: \href{https://orcid.org/0009-0006-7249-4240}{0009-0006-7249-4240}
+
+\vspace{1.5em}
+
+\noindent\textbf{Corresponding author}\\[0.4em]
+Hui Mao --- \href{mailto:hui.mao@alumni.upenn.edu}{hui.mao@alumni.upenn.edu}
+
+\vspace{1.5em}
+
+\noindent\textbf{Acknowledgements}\\[0.4em]
+This work uses the public arXiv metadata record, and the author thanks arXiv
+and Cornell University for maintaining open access to it. The author also
+thanks the maintainers of the open-source scientific Python ecosystem
+(NumPy, pandas, scikit-learn, statsmodels, Matplotlib), on which the entire
+analysis pipeline is built.
+
+\vspace{1.5em}
+
+\noindent\textbf{Funding}\\[0.4em]
+This research received no specific grant from any funding agency in the
+public, commercial, or not-for-profit sectors.
+
+\vspace{1.5em}
+
+\noindent\textbf{Declaration of competing interests}\\[0.4em]
+The author declares no competing interests.
+
+\vspace{1.5em}
+
+\noindent\textbf{Data availability}\\[0.4em]
+All data, code, outcome labels, and judge rationales are publicly available.
+Dataset:
+\href{https://huggingface.co/datasets/huiluckylucky/scientific-question-outcomes}{huggingface.co/datasets/huiluckylucky/scientific-question-outcomes}.
+Pipeline and full results:
+\href{https://github.com/nonameisready/scientific-question-outcome-prediction-indicators}{github.com/nonameisready/scientific-question-outcome-prediction-indicators}.
+
+\end{document}
