@@ -249,6 +249,93 @@ To our knowledge no prior dataset attaches future-outcome labels to
 \emph{questions} frozen at multiple historical cutoffs with controlled
 generation sources and negative controls.
 
+\section{Theoretical framework}
+\label{sec:theory}
+
+Why should any property measurable at the cutoff predict what a scientific
+community subsequently does with a question? The empirical sections that
+follow are organised by a single account --- \emph{attention allocation as
+recognition-constrained foraging} --- assembled from three premises, each
+with independent support in prior literature. We are explicit about its
+epistemic status at the end of the section: the account was articulated to
+organise this paper's results, not derived before them, and its falsifiable
+content is therefore prospective.
+
+\paragraph{Premise 1: evaluation is the price of attention.} A community's
+capacity to take up questions is bounded by researcher time, instrument
+access, and career risk. Before anyone invests in a question, someone must
+pay an evaluation cost: deciding whether it is well posed, whether it can
+be answered with accessible data, and whether an answer would be
+publishable. Bounded rationality~\cite{simon1955} implies this cost is not
+paid exhaustively --- it is avoided wherever a cheaper proxy exists.
+
+\paragraph{Premise 2: prior recognition amortises the evaluation cost.}
+Signals that the community has already evaluated a question --- above all
+its appearance in a review article --- let an individual researcher skip
+the evaluation and inherit its conclusion. This is cumulative
+advantage~\cite{merton1968} operating at the level of questions rather
+than of people or papers: a recognised question gets re-recognised,
+because recognition is itself the cheapest available evidence of worth.
+Foster, Rzhetsky and Evans' finding that scientists overwhelmingly choose
+conservative, tradition-following research strategies~\cite{foster2015} is
+the strategy-level face of the same economy.
+
+\paragraph{Premise 3: researchers forage on cost-and-yield cues.}
+Information-foraging theory~\cite{pirolli1999} models an information
+seeker as following ``scent'' toward patches of high expected yield per
+unit cost. Read as foraging cues, the feature groups of
+Section~\ref{sec:features} make differentiated predictions. A dense base
+of directly related prior evidence signals a rich patch in which existing
+tools, data, and comparison points apply, lowering the marginal cost of a
+contribution --- whether or not that evidence is in tension. An explicitly
+articulated pair of competing hypotheses converts an open-ended evaluation
+problem into a designable discriminating study, lowering execution cost.
+Semantic novelty, by contrast, raises evaluation cost without lowering
+execution cost. And entity-specificity shrinks the set of researchers for
+whom the patch is cheap at all.
+
+\medskip
+\noindent Together the premises order the predictors the paper tests:
+
+\begin{enumerate}[label=(P\arabic*)]
+  \item prior recognition in reviews should be the strongest and most
+    stable positive predictor of five-year attention;
+  \item density of directly related evidence should predict uptake
+    independently of whether that evidence agrees --- density, not
+    tension;
+  \item explicit competing hypotheses should predict engagement and,
+    conditional on engagement, resolution;
+  \item semantic novelty should be null to weakly positive at a five-year
+    horizon --- the question-level analogue of the finding that impact
+    favours conventional cores~\cite{uzzi2013};
+  \item entity-specificity should predict less and slower
+    \emph{measured} attention.
+\end{enumerate}
+
+Two boundaries of the account deserve emphasis. First, it is a theory of
+where attention flows, not of what a question is worth; the discussion
+returns to the gap between the two, and the error analysis of
+Section~\ref{sec:robustness} exhibits it concretely --- the attention
+model's largest miss is a question the community engaged by overturning
+its premise. Second, the account does not cover the premise-refutation
+channel at all. Refutation is error-correction rather than
+attention-following: Section~\ref{sec:structureprior} finds it
+concentrated in quantified, recurrent contradictions --- structures that
+persist across cutoffs until someone runs the decisive test. A foraging
+account predicts the crowd's path; it is silent about which accepted
+conclusion will fall.
+
+Finally, the epistemic status. The six hypotheses of
+Section~\ref{sec:models} were stated before the outcomes were known; this
+framework was assembled afterwards, as the interpretation the results
+select among prior theories --- Merton's cumulative advantage, Foster et
+al.'s conservatism, Uzzi et al.'s conventionality, and the foraging model
+of information seeking. Its falsifiable content is prospective:
+transported to a new domain, it predicts that recognition and evidence
+density transfer as predictors while novelty remains null, and the frozen
+prospective instance of~\cite{paper2} puts that prediction on the record
+before the outcomes exist.
+
 \section{Dataset construction}
 
 \subsection{Corpus}
@@ -317,6 +404,7 @@ and every title shown to a generator predates the cutoff --- and verified
 by an automated validator over the frozen records (980/980 pass).
 
 \subsection{Feature record (six groups, all cutoff-time)}
+\label{sec:features}
 
 \begin{description}
   \item[A. Text structure] length, named entities, numbers, causal /
@@ -393,6 +481,7 @@ discipline: absolute rates are rater-relative, and every comparative
 claim in this paper is made under a single fixed judge.
 
 \section{Models and evaluation protocol}
+\label{sec:models}
 
 Baselines before models, interpretable models before ensembles: majority
 class; field-popularity-only; question-text-only (bag of words); then L2
@@ -559,6 +648,7 @@ tractability 0.540, environment 0.550. Dropping the novelty group
 \end{figure}
 
 \subsection{Which properties robustly predict attention}
+\label{sec:predictors}
 
 Controlled logistic effects (standardized, with subfield + cutoff +
 source + environment covariates), with sign-stability across the 5
@@ -703,6 +793,7 @@ made before freezing --- and the dataset makes such audits possible
 because provenance is stored verbatim.
 
 \subsection{A learned prior over evidence-graph structures}
+\label{sec:structureprior}
 
 Paper 2's outlook section poses the question its architecture needs
 answered next: \emph{which structural patterns of pre-cutoff evidence
@@ -763,7 +854,7 @@ Three structural regularities emerge, one per outcome layer:
     2--3-paper, Fisher $p=6\times10^{-5}$) and future paper volume
     ($\beta=+0.12$, $p=0.03$) --- the structure-level counterpart of
     the question-level ``density of directly related prior evidence''
-    predictor of Section~5.3. Fresher evidence also draws more future
+    predictor of Section~\ref{sec:predictors}. Fresher evidence also draws more future
     papers (evidence age on volume: $\beta=-0.17$, $p=0.002$).
   \item \textbf{Explicit contradiction buys engagement; methodological
     doubt does not resolve.} Clusters whose sentences explicitly
@@ -805,10 +896,102 @@ before any question is phrased --- the fitted coefficients
 exactly the machine-scale structural search Paper 2's outlook proposes:
 enumerate candidate tensions, rank by breadth, explicit contradiction,
 quantification, and persistence, verbalize the survivors. The
-prospective instance (Section~8) is the pre-registered test of whether
+prospective instance (Section~\ref{sec:conclusion}) is the pre-registered test of whether
 this prior holds on a future no model has seen.
 
+\subsection{Robustness, calibration, and the label-noise ceiling}
+\label{sec:robustness}
+
+Four analyses probe how much of the above depends on analytic choices, and
+what the measured label noise implies about the best any model could do
+(\texttt{results/robustness.json}; all computed from the frozen records).
+
+\paragraph{The engagement bar.} The released label derives
+\texttt{addressed} from at least one \emph{direct} future candidate. Under
+stricter bars the levels drop, but the contrast that carries the leakage
+claim survives every bar, while the tension-vs-control contrast weakens
+into noise (Table~\ref{tab:bars}). At $n_\mathrm{direct}\geq 3$ tension
+questions sit nominally below controls (0.115 vs.\ 0.140), a crossover
+that is not significant ($p=0.43$) and whose composition is diagnostic:
+22 of the 28 controls clearing that bar are of the \emph{vague} subtype.
+Vague questions accumulate ``direct'' hits because breadth makes the
+direct/adjacent distinction permeable, whereas engaged tension questions
+are engaged \emph{thinly} --- 1.9 direct papers on average, with 75\% at
+one or two, against 3.2 and 42\% for direct-LLM questions --- and
+$n_\mathrm{direct}$ correlates negatively with entity count
+($\rho=-0.12$) and specificity ($\rho=-0.17$, both $p<10^{-3}$). The
+strict-bar crossover is thus the specificity effect and the
+breadth-farming failure mode meeting in one number, not a reversal of
+question quality.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Addressed rate under stricter direct-engagement bars. Fisher
+  $p$ against controls.}
+  \label{tab:bars}
+  \small
+  \begin{tabular}{lcccccc}
+    \toprule
+    Bar & All & Controls & Tension & Direct LLM & LLM vs.\ ctrl & Tension vs.\ ctrl \\
+    \midrule
+    $n_\mathrm{direct}\geq 1$ & 0.527 & 0.320 & 0.465 & 0.880 & $p<10^{-4}$ & $p=0.0007$ \\
+    $n_\mathrm{direct}\geq 2$ & 0.333 & 0.185 & 0.238 & 0.685 & $p<10^{-4}$ & $p=0.17$ \\
+    $n_\mathrm{direct}\geq 3$ & 0.212 & 0.140 & 0.115 & 0.515 & $p<10^{-4}$ & $p=0.43$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Retrieval bound and uncertainty.} The stored top-8 similarity
+lists quantify how retrieval-bounded the labels are: at the released
+threshold ($\tau=0.18$) 40\% of questions already have no candidate above
+threshold, rising to 67\% at $\tau=0.22$ --- the ``lower bound'' caveat in
+numbers. Bootstrap intervals (2{,}000 resamples) put the headline
+addressed rate at 0.527 [0.496, 0.557] and the non-control-minus-control
+gap at 0.259 [0.180, 0.330]. The judge's self-reported confidence is
+itself informative about its behaviour: it assigns full confidence chiefly
+when rejecting (addressed rate 0.235 at confidence 1.0 vs.\ 0.867 at 0.9),
+i.e.\ it is certain about absence and hedges about presence.
+
+\paragraph{The label-noise ceiling.} The independent second judge agrees
+with the primary on \texttt{addressed} 63.5\% of the time. Modelling both
+as independent, class-symmetric noisy readers of a latent truth, that
+agreement implies a per-judge flip rate of 0.24 --- and a \emph{perfect}
+oracle for the latent truth would score only \textbf{AUC 0.758} against
+the primary labels. The observed temporal-split AUC of 0.713 is then
+\textbf{83\% of the achievable range above chance}. The split of the
+measured disagreement between the judges is not identified --- attributing
+more of it to the second judge raises the ceiling (to 0.90 if the primary
+judge's flip rate is 0.10) --- but under any allocation the ceiling sits
+well below 1: raw AUC materially understates predictive skill on
+noisy-labelled outcomes, a point that applies to any study scoring
+open-ended outcomes with an imperfect judge.
+
+\paragraph{Calibration and errors.} Discrimination is not calibration:
+the temporal-split logistic model reaches Brier 0.224 with
+quintile-binned ECE 0.109, well calibrated at the extremes (top bin:
+predicted 0.87, observed 0.86) and overconfident in the middle (predicted
+0.59, observed 0.45; Figure~\ref{fig:calibration}). Its false positives
+do not show inflated review overlap relative to true negatives (0.077
+vs.\ 0.075), so the strongest predictor is not the failure mode. The
+most instructive error is a false negative: the model's second-lowest
+test-set prediction (0.089) is the HD~209458\,b water-abundance question
+imported from~\cite{paper1} --- precisely the question the community
+engaged by \emph{refuting its premise}. The attention model assigns near
+zero to the dataset's clearest instance of a question doing what
+questions are for, which is the sharpest single demonstration that
+predicted attention and question value are different quantities
+(Section~\ref{sec:theory}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{calibration}
+  \caption{Reliability diagram, temporal test split (quintile bins,
+  $n=210$).}
+  \label{fig:calibration}
+\end{figure}
+
 \section{Discussion}
+\label{sec:discussion}
 
 \paragraph{What the dataset says about question value.} The strongest
 honest summary: five-year scientific attention is predictable to a
@@ -874,7 +1057,7 @@ respectively.
   \item \textbf{Retrieval-bounded labels.} A question can be engaged by
     literature our TF--IDF retrieval misses; not\_addressed is a lower
     bound on engagement, uniformly across sources but not uniformly
-    across specificity (see Section~6).
+    across specificity (see Section~\ref{sec:discussion}).
   \item \textbf{LLM judges, not humans.} Label reliability is estimated
     with an independent second model rather than human adjudication
     (63.5\% raw agreement, $\kappa=0.21$, disagreement one-directionally
@@ -909,6 +1092,7 @@ respectively.
 \end{itemize}
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 We built the first temporally grounded, multi-cutoff, multi-source
 dataset of scientific questions with future-outcome labels, and used it
@@ -1006,6 +1190,14 @@ Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and
 David Ha. The AI Scientist: Towards Fully Automated Open-Ended Scientific
 Discovery. arXiv:2408.06292, 2024.
 
+\bibitem{merton1968}
+Robert K. Merton. The Matthew Effect in Science. \emph{Science},
+159(3810):56--63, 1968.
+
+\bibitem{pirolli1999}
+Peter Pirolli and Stuart K. Card. Information Foraging.
+\emph{Psychological Review}, 106(4):643--675, 1999.
+
 \bibitem{rzhetsky2015}
 Andrey Rzhetsky, Jacob G. Foster, Ian T. Foster, and James A. Evans.
 Choosing experiments to accelerate collective discovery. \emph{Proceedings
@@ -1020,6 +1212,10 @@ arXiv:2409.04109, 2024.
 Chenglei Si, Tatsunori Hashimoto, and Diyi Yang. The Ideation--Execution
 Gap: Execution Outcomes of LLM-Generated versus Human Research Ideas.
 arXiv:2506.20803, 2025.
+
+\bibitem{simon1955}
+Herbert A. Simon. A Behavioral Model of Rational Choice. \emph{Quarterly
+Journal of Economics}, 69(1):99--118, 1955.
 
 \bibitem{swanson1986}
 Don R. Swanson. Fish Oil, Raynaud's Syndrome, and Undiscovered Public

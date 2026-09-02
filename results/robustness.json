@@ -1,0 +1,364 @@
+{
+  "engagement_bar": {
+    "n_direct>=1": {
+      "all": 0.527,
+      "control": 0.32,
+      "evidence_tension": 0.465,
+      "future_work": 0.51,
+      "direct_llm": 0.88,
+      "llm_vs_control": {
+        "gap": 0.56,
+        "fisher_p": 0.0
+      },
+      "tension_vs_control": {
+        "gap": 0.145,
+        "fisher_p": 0.0007
+      }
+    },
+    "n_direct>=2": {
+      "all": 0.333,
+      "control": 0.185,
+      "evidence_tension": 0.238,
+      "future_work": 0.321,
+      "direct_llm": 0.685,
+      "llm_vs_control": {
+        "gap": 0.5,
+        "fisher_p": 0.0
+      },
+      "tension_vs_control": {
+        "gap": 0.053,
+        "fisher_p": 0.1689
+      }
+    },
+    "n_direct>=3": {
+      "all": 0.212,
+      "control": 0.14,
+      "evidence_tension": 0.115,
+      "future_work": 0.173,
+      "direct_llm": 0.515,
+      "llm_vs_control": {
+        "gap": 0.375,
+        "fisher_p": 0.0
+      },
+      "tension_vs_control": {
+        "gap": -0.025,
+        "fisher_p": 0.4251
+      }
+    }
+  },
+  "retrieval_threshold": {
+    "tau=0.18": {
+      "mean_candidates": 2.3,
+      "zero_candidate_share": 0.4
+    },
+    "tau=0.22": {
+      "mean_candidates": 0.95,
+      "zero_candidate_share": 0.67
+    },
+    "tau=0.26": {
+      "mean_candidates": 0.33,
+      "zero_candidate_share": 0.859
+    },
+    "tau=0.3": {
+      "mean_candidates": 0.14,
+      "zero_candidate_share": 0.934
+    }
+  },
+  "confidence_strata": {
+    "1.0": {
+      "n": 528,
+      "addressed": 0.235,
+      "mean_n_direct": 0.87
+    },
+    "0.9": {
+      "n": 452,
+      "addressed": 0.867,
+      "mean_n_direct": 1.82
+    }
+  },
+  "bootstrap": {
+    "n_boot": 2000,
+    "addressed_rate": {
+      "point": 0.527,
+      "ci95": [
+        0.496,
+        0.557
+      ]
+    },
+    "noncontrol_minus_control": {
+      "point": 0.259,
+      "ci95": [
+        0.18,
+        0.33
+      ]
+    }
+  },
+  "noise_ceiling": {
+    "second_judge_agreement": 0.635,
+    "symmetric_flip_rate": 0.24,
+    "auc_ceiling_symmetric": 0.758,
+    "observed_auc_temporal_logistic": 0.713,
+    "skill_fraction_at_symmetric_ceiling": 0.826,
+    "ceiling_scan": [
+      {
+        "e_primary": 0.02,
+        "e_second": 0.359,
+        "auc_ceiling": 0.98
+      },
+      {
+        "e_primary": 0.04,
+        "e_second": 0.353,
+        "auc_ceiling": 0.96
+      },
+      {
+        "e_primary": 0.06,
+        "e_second": 0.347,
+        "auc_ceiling": 0.94
+      },
+      {
+        "e_primary": 0.08,
+        "e_second": 0.339,
+        "auc_ceiling": 0.92
+      },
+      {
+        "e_primary": 0.1,
+        "e_second": 0.331,
+        "auc_ceiling": 0.899
+      },
+      {
+        "e_primary": 0.12,
+        "e_second": 0.322,
+        "auc_ceiling": 0.879
+      },
+      {
+        "e_primary": 0.14,
+        "e_second": 0.312,
+        "auc_ceiling": 0.859
+      },
+      {
+        "e_primary": 0.16,
+        "e_second": 0.301,
+        "auc_ceiling": 0.839
+      },
+      {
+        "e_primary": 0.18,
+        "e_second": 0.289,
+        "auc_ceiling": 0.819
+      },
+      {
+        "e_primary": 0.2,
+        "e_second": 0.275,
+        "auc_ceiling": 0.798
+      },
+      {
+        "e_primary": 0.22,
+        "e_second": 0.259,
+        "auc_ceiling": 0.778
+      },
+      {
+        "e_primary": 0.24,
+        "e_second": 0.24,
+        "auc_ceiling": 0.758
+      },
+      {
+        "e_primary": 0.26,
+        "e_second": 0.219,
+        "auc_ceiling": 0.738
+      },
+      {
+        "e_primary": 0.28,
+        "e_second": 0.193,
+        "auc_ceiling": 0.717
+      },
+      {
+        "e_primary": 0.3,
+        "e_second": 0.162,
+        "auc_ceiling": 0.697
+      },
+      {
+        "e_primary": 0.32,
+        "e_second": 0.125,
+        "auc_ceiling": 0.677
+      },
+      {
+        "e_primary": 0.34,
+        "e_second": 0.078,
+        "auc_ceiling": 0.656
+      }
+    ],
+    "note": "independent class-symmetric noise model; ceiling is for a perfect oracle of the latent truth scored on the primary labels"
+  },
+  "calibration": {
+    "test_auc": 0.713,
+    "brier": 0.224,
+    "ece_quintile": 0.109,
+    "bins": [
+      {
+        "n": 42,
+        "mean_predicted": 0.207,
+        "observed_rate": 0.381
+      },
+      {
+        "n": 42,
+        "mean_predicted": 0.421,
+        "observed_rate": 0.333
+      },
+      {
+        "n": 42,
+        "mean_predicted": 0.593,
+        "observed_rate": 0.452
+      },
+      {
+        "n": 42,
+        "mean_predicted": 0.75,
+        "observed_rate": 0.619
+      },
+      {
+        "n": 42,
+        "mean_predicted": 0.87,
+        "observed_rate": 0.857
+      }
+    ]
+  },
+  "error_analysis": {
+    "top_false_positives": [
+      {
+        "question_id": "compact_objects-2020-014",
+        "source": "direct_llm",
+        "subfield": "compact_objects",
+        "predicted": 0.885,
+        "review_overlap": 0.0808304686005553,
+        "n_similar": 4.0,
+        "question": "What are the underlying causes of the observed variability in pulsar magnetic fields, and how does this variability affect pulsar timing and"
+      },
+      {
+        "question_id": "compact_objects-2020-016",
+        "source": "future_work",
+        "subfield": "compact_objects",
+        "predicted": 0.866,
+        "review_overlap": 0.1221914806528731,
+        "n_similar": 10.0,
+        "question": "What is the nature of black hole jets at the lowest detectable luminosities?"
+      },
+      {
+        "question_id": "gravitational_waves-2020-021",
+        "source": "control",
+        "subfield": "gravitational_waves",
+        "predicted": 0.838,
+        "review_overlap": 0.1413917305538041,
+        "n_similar": 99.0,
+        "question": "What is the relationship between the statistical occurrence rates of low-luminosity short gamma-ray bursts and the observed redshift distrib"
+      },
+      {
+        "question_id": "stellar_activity-2020-012",
+        "source": "direct_llm",
+        "subfield": "stellar_activity",
+        "predicted": 0.838,
+        "review_overlap": 0.1103997687024583,
+        "n_similar": 0.0,
+        "question": "What is the relationship between starspot dynamics and the overall magnetic cycle of stars, and how can this be quantitatively modeled to pr"
+      },
+      {
+        "question_id": "gravitational_waves-2020-019",
+        "source": "future_work",
+        "subfield": "gravitational_waves",
+        "predicted": 0.834,
+        "review_overlap": 0.0352076676428767,
+        "n_similar": 4.0,
+        "question": "What are the implications of poorly constrained factors on evolutionary predictions?"
+      }
+    ],
+    "top_false_negatives": [
+      {
+        "question_id": "exoplanet_atmospheres-2020-002",
+        "source": "evidence_tension",
+        "subfield": "exoplanet_atmospheres",
+        "predicted": 0.059,
+        "review_overlap": 0.065826681847772,
+        "n_similar": 1.0,
+        "question": "What are the distinct atmospheric layers present in the exoplanet's atmosphere that contribute to the observed discrepancies in night-side t"
+      },
+      {
+        "question_id": "paper1-q_008",
+        "source": "paper1_evidence_graph",
+        "subfield": "exoplanet_atmospheres",
+        "predicted": 0.089,
+        "review_overlap": 0.0058369876542618,
+        "n_similar": 0.0,
+        "question": "Is the strongly subsolar terminator water abundance retrieved for HD 209458 b a property of the atmosphere or an artifact of retrieval assum"
+      },
+      {
+        "question_id": "protoplanetary_disks-2020-002",
+        "source": "evidence_tension",
+        "subfield": "protoplanetary_disks",
+        "predicted": 0.096,
+        "review_overlap": 0.1098456986463066,
+        "n_similar": 2.0,
+        "question": "What is the cause of the discrepancies in the derived inclinations and cavity radii in protoplanetary disks, specifically between interferom"
+      },
+      {
+        "question_id": "galaxy_evolution-2020-007",
+        "source": "evidence_tension",
+        "subfield": "galaxy_evolution",
+        "predicted": 0.131,
+        "review_overlap": 0.1132628683315331,
+        "n_similar": 18.0,
+        "question": "How do the number densities and clustering measurements of galaxies at redshifts z > 3.5 compare when accounting for the expected scatter in"
+      },
+      {
+        "question_id": "galaxy_evolution-2020-003",
+        "source": "evidence_tension",
+        "subfield": "galaxy_evolution",
+        "predicted": 0.156,
+        "review_overlap": 0.1046677679541562,
+        "n_similar": 76.0,
+        "question": "What are the mechanisms and timescales involved in the formation of supermassive black holes (SMBHs) and intermediate-mass black holes (IMBH"
+      }
+    ],
+    "false_positive_profile": {
+      "n": 43,
+      "mean_review_overlap": 0.077,
+      "mean_review_overlap_true_negatives": 0.075,
+      "share_direct_llm": 0.047
+    }
+  },
+  "bar3_anomaly": {
+    "tension_vs_control_at_bar3": {
+      "tension": 0.115,
+      "control": 0.14,
+      "fisher_p": 0.425
+    },
+    "engagement_thinness": {
+      "evidence_tension": {
+        "mean_n_direct_given_engaged": 1.9,
+        "share_thin_1_or_2": 0.753
+      },
+      "control": {
+        "mean_n_direct_given_engaged": 2.47,
+        "share_thin_1_or_2": 0.562
+      },
+      "future_work": {
+        "mean_n_direct_given_engaged": 2.36,
+        "share_thin_1_or_2": 0.66
+      },
+      "direct_llm": {
+        "mean_n_direct_given_engaged": 3.17,
+        "share_thin_1_or_2": 0.415
+      }
+    },
+    "control_subtypes_surviving_bar3": {
+      "vague": 22,
+      "consensus_challenge": 2,
+      "untestable": 2,
+      "random_pair": 2
+    },
+    "spearman_entities_vs_n_direct": {
+      "rho": -0.122,
+      "p": 0.00013
+    },
+    "spearman_specificity_vs_n_direct": {
+      "rho": -0.166,
+      "p": 0.0
+    }
+  }
+}
