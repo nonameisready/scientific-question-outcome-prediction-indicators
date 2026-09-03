@@ -94,6 +94,18 @@ def blind(text: str) -> str:
         "double-blind review and will be supplied on acceptance.",
         text, flags=re.S,
     )
+    text = re.sub(
+        r"released as a separate repository with the same layout --- code, frozen\n"
+        r"questions, features, labels, audit verdicts, and result tables --- at\n"
+        r"\\href\{.*?\n"
+        r"given its harvest, every replication number is deterministic \(no\n"
+        r"language-model calls at any stage\)\.",
+        "released as a separate repository with the same layout --- code, frozen\n"
+        "questions, features, labels, audit verdicts, and result tables ---\n"
+        "(URL likewise withheld for double-blind review); given its harvest, every\n"
+        "replication number is deterministic (no language-model calls at any stage).",
+        text, flags=re.S,
+    )
 
     # 4. bibliography aliases
     text = text.replace("Referred to as ``Paper 1'' throughout.\n", "")

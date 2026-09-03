@@ -44,8 +44,15 @@ structure itself is predictive: breadth of the paper cluster in tension
 predicts uptake (β=+0.45/SD), explicit contradiction predicts
 engagement, and quantified, cutoff-persistent tensions carry every
 resolution and premise refutation — a learnable, mining-time prior for
-structure-first question generation. All data, code, labels, and judge
-rationales are released.
+structure-first question generation. Finally, a complete replication of
+the protocol in a maximally distant second domain — anti-aging
+skincare-ingredient research (19,193 PubMed abstracts, 1,043 backtested
+questions, a deterministic template generator and a checkable-condition
+judge) — reproduces the predictability (AUC 0.75–0.84), the control
+ordering, the breadth effect, the hypothesis failures, and the
+reliability ceiling (κ=0.22 vs. 0.21), while the sign of specificity
+reverses exactly as the engagement-cost account predicts. All data,
+code, labels, and judge rationales for both domains are released.
 
 ## 1. Introduction
 
@@ -860,6 +867,115 @@ what questions are for, which is the sharpest single demonstration that
 predicted attention and question value are different quantities
 (section 3).
 
+### 6.8 Cross-domain replication: anti-aging skincare ingredients
+
+Every conclusion so far rests on one science. To test which of them are
+astronomy's, we ported the complete protocol — unchanged where possible,
+and changed only in directions this paper itself prescribes — to a
+maximally distant literature: anti-aging and anti-wrinkle
+skincare-ingredient research. The corpus is the complete PubMed record
+of English abstracts matching one reproducible skin-aging × ingredient
+query (19,193 papers, 2005–2026); the eight subfields become twelve
+ingredient classes; the facility lexicon becomes an assay-availability
+lexicon; and the same five cutoffs, past/future windows, source mix
+(tension, future-work, weak/negative controls), six feature groups,
+temporal and leave-one-class-out splits, pre-stated hypotheses, and
+structural prior are applied to **1,043 backtested questions**. Two
+deliberate deviations implement this paper's own v2 requirements
+(section 8): questions are verbalised by deterministic templates over
+verbatim pre-cutoff sentences, removing the parametric-leakage channel
+entirely (no language model is called at any stage), and the outcome
+judge is the reliability-gated, checkable-condition rule our
+limitations section calls for — direct engagement requires retrieval
+relevance, an anchor-ingredient match, and a skin-aging outcome term;
+*answered* requires a direct randomised trial or meta-analysis — making
+every label reproducible bit-for-bit.
+
+The protocol transfers. Future attention is again predictable
+out-of-time (interpretable logistic AUC 0.746 on the 2020 test cutoff,
+n=226; gradient boosting 0.836), again survives training on the six
+mature ingredient classes and testing on the six emerging ones
+(0.72–0.77), and again clears chance in every leave-one-class-out split
+(0.67–0.93). Controls again land lowest (26.8% vs. 40.3% for
+tension-mined questions), and the structural breadth effect of
+section 6.6 replicates in sign and significance at about half the size
+(β=+0.23, p=0.04). All six pre-stated hypotheses fail again: across the
+two domains, twelve pre-registered mechanism tests now yield one
+directional survivor, H3, marginal in both (β=0.56, p=0.08; β=0.71,
+p=0.061), while astronomy's marginal H6 interaction does not replicate
+(p=0.69). Most tellingly, the reliability ceiling reappears under a
+different kind of judge: a blinded second judgement of a stratified
+sample gives 65.6% raw agreement and κ=0.22 on *addressed* — against
+63.5% and κ=0.21 here — even though the replication's primary judge is
+a deterministic rule rather than a language model. The ceiling lives in
+the outcome taxonomy itself, not in any particular judge, which is what
+the noise-ceiling construction of section 6.7 assumes.
+
+| | Astronomy (this paper) | Skincare replication |
+| --- | --- | --- |
+| Corpus | 313,189 arXiv astro-ph | 19,193 PubMed |
+| Backtested questions | 980 | 1,043 |
+| Verbalization | LLM (temp. 0, cached) | deterministic templates |
+| Outcome judge | blinded LLM rubric | checkable-condition rule |
+| Addressed: controls / tension | 0.32 / 0.47 | 0.27 / 0.40 |
+| Out-of-time AUC (interpretable / best) | 0.713 / 0.718 | 0.746 / 0.836 |
+| Held-out-domain AUC | 0.65–0.71 | 0.72–0.77 |
+| Evidence density β | +0.26 | +0.79 |
+| Review overlap β | **+0.34** | 0.00 (p=0.95) |
+| Specificity β (Cox HR/SD) | −0.16 (0.73) | **+0.57** (1.29) |
+| Competing hypotheses β | +0.17 | +0.28 |
+| Evidence tension density β | +0.06 (n.s.) | −0.09 (n.s.) |
+| Hypotheses supported | 0/6 (H3 marginal) | 0/6 (H3 marginal) |
+| Structural breadth β | +0.45, p=0.001 | +0.23, p=0.04 |
+| Second-judge agreement (κ) | 63.5% (0.21) | 65.6% (0.22) |
+
+*Absolute rates and AUCs are comparable only within one column (the
+instances differ in judge and recalibrated retrieval thresholds).*
+
+What does *not* transfer is as informative as what does, because the
+changes go in the directions the theoretical framework predicts rather
+than in random ones. Exactly one predictor is sign-stable across every
+cutoff, class, and source *in both domains*: the density of directly
+similar prior evidence (β=+0.26 here, +0.79 there) — the quantity
+section 3 identifies with amortised evaluation cost, and the
+framework's central prediction. The recognition cue it rides on,
+however, is domain-specific: review overlap, astronomy's strongest
+predictor, is exactly null in the ingredient literature (β=0.00,
+p=0.95), displaced by naming a specific ingredient (β=+0.76) — in a
+field organised around named actives rather than named objects, the
+ingredient name *is* the recognition handle. (The effect is partly
+instrumental, since the rule judge anchors on ingredient names; the
+retrieval-bound caveat of section 7 applies with its sign flipped.)
+Most strikingly, specificity reverses sign: negative and decelerating
+in astronomy (β=−0.16; Cox HR 0.73/SD), it is a strong positive
+predictor in skincare (β=+0.57, p<1e-10) that *accelerates* engagement
+(HR 1.29, p=2e-4). The foraging account prices the reversal in
+engagement cost: a specific ingredient claim can be tested by one
+vehicle-controlled twelve-week split-face trial, so specific questions
+are cheap, high-yield patches; a specific astronomy claim needs
+scheduled telescope time that no group can allocate around one
+question. Where acting on a question is cheap, specificity is a yield
+cue; where it is expensive, specificity narrows the addressable
+community. A theory of attention allocation whose cue weights could
+*not* change across domains with different cost structures would be
+wrong about its own mechanism; this one changes them in the observed
+direction while keeping its central quantity fixed. Evidence tension,
+meanwhile, is null in both domains (+0.06 and −0.09): the H1 failure is
+not an astronomy accident.
+
+Three caveats keep the comparison honest. The two instances differ in
+judge and in recalibrated retrieval thresholds, so absolute rates and
+AUCs are comparable only within one instance — the lesson of
+section 4.5 applied to ourselves. The replication's refutation channel
+is empty (its two premise-challenged cases were both unconfirmed by the
+second judge and are treated as absent), so the refutation-side
+structural indicators could not be re-tested. And the rule judge's
+*answered* ("a direct trial or meta-analysis exists") is measurably
+more lenient than a human "settled": six of eight audited *answered*
+cases were downgraded to partial. The replication's full pipeline,
+frozen questions, features, labels, audit verdicts, and result tables
+are released alongside this paper's.
+
 ## 7. Discussion
 
 **What the dataset says about question value.** The strongest honest
@@ -987,8 +1103,13 @@ overturnable conclusions rather than at the crowd's path.
   conservative. Asymmetric class errors cut the other way. The scan over
   error splits bounds the leverage of the symmetric assumption, but only
   human adjudication could replace the model with a measurement.
-- **One domain.** Astronomy only; the cross-subfield transfers here are
-  necessary but not sufficient evidence of cross-science generality.
+- **Two domains, one primary.** The full analysis is astronomy's; the
+  skincare-ingredient replication (section 6.8) shows the protocol and
+  the evidence-density predictor transfer, but it uses a different
+  judge, its refutation channel is empty, and two domains do not span
+  science. Fields whose engagement-cost structure differs from both —
+  mathematics, say, where acting on a question is neither a trial nor
+  an observation — remain open.
 
 ## 9. Conclusion
 
@@ -997,7 +1118,8 @@ dataset of scientific questions with future-outcome labels, and used it
 to replace two common practices: scoring questions by how they sound,
 and validating question generators on single-digit case studies. At
 n=980 with strict blinded labeling, future scientific attention is
-predictable (AUC ≈ 0.71 out-of-time and out-of-domain) — and the robust
+predictable (AUC ≈ 0.71 out-of-time and out-of-domain, and 0.75–0.84
+in an independent second-domain replication) — and the robust
 predictors are community-relational, not rhetorical. That number is 83%
 of the ceiling measured label noise permits, and the predictors are
 exactly those a recognition-constrained foraging account of attention
@@ -1008,10 +1130,14 @@ mechanism hypotheses failed, which is the point: a dataset an order of
 magnitude larger than its predecessor makes intuitions testable, and
 most did not survive. The dataset, every prompt, every judge rationale,
 and the full pipeline are released for the community to reuse, audit,
-and extend to other sciences; an extension to a second domain with
-harder outcome signals is in preparation (clinical oncology, where
-trial registrations and phase transitions are observable events rather
-than retrieval-bounded labels). A forward-looking test is already armed:
+and extend to other sciences — and the skincare-ingredient replication
+of section 6.8 shows that the extension is a port, not a rebuild: the
+protocol, the evidence-density predictor, the hypothesis failures, and
+the reliability ceiling all reproduce in a second science, with the
+sign flips the engagement-cost account predicts. An extension to a
+third domain with harder outcome signals is in preparation (clinical
+oncology, where trial registrations and phase transitions are
+observable events rather than retrieval-bounded labels). A forward-looking test is already armed:
 Paper 2 v1.1's prospective instance — 200 questions from four
 generators, frozen 2026-08-17 with a pre-registered 2027–2030 scoring
 window — will let the predictors learned here be evaluated against a
@@ -1029,6 +1155,12 @@ The frozen dataset is additionally published on the Hugging Face Hub at
 [`huiluckylucky/scientific-question-outcomes`](https://huggingface.co/datasets/huiluckylucky/scientific-question-outcomes),
 loadable in one call, with the structure-prior and second-judge subsets as
 separate configurations.
+The cross-domain replication of section 6.8 is released as a separate
+repository with the same layout — code, frozen questions, features,
+labels, audit verdicts, and result tables — at
+[`nonameisready/scientific-discovery-anti-age-integredients`](https://github.com/nonameisready/scientific-discovery-anti-age-integredients);
+given its harvest, every replication number is deterministic (no
+language-model calls at any stage).
 
 ## References
 
