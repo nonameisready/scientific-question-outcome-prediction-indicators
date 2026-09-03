@@ -26,7 +26,9 @@ addressed; negative-control questions were addressed least (32%) and
 direct-LLM questions most (88%), the latter carrying a documented
 parametric-leakage caveat. Interpretable models trained on 2012–2016
 cutoffs predict 2020 outcomes at AUC 0.71 and transfer to entirely
-held-out subfields at AUC 0.65–0.71. Across univariate, controlled,
+held-out subfields at AUC 0.65–0.71. Measured label noise implies
+a perfect-oracle ceiling of AUC 0.76 on these labels, so the model
+captures 83% of the attainable range above chance. Across univariate, controlled,
 ablation, and stability analyses, the robust predictors of future
 attention are **prior community recognition** (overlap with pre-cutoff
 review articles, β=+0.34, p<10⁻⁴), **the density of directly related
@@ -429,6 +431,51 @@ the humans matched each other (κ=0.17–0.26). We therefore adopt Paper
 2's reporting discipline: absolute rates are rater-relative, and every
 comparative claim in this paper is made under a single fixed judge.
 
+
+### 4.5 Design of the retrieval and judging stages
+
+The two information-access components deserve fuller specification.
+
+**Retrieval.** Both the cutoff-time evidence features and the
+future-window label candidates use the same retriever: TF-IDF over
+title-plus-abstract with English stop-word removal, a 50,000-term
+vocabulary, and sublinear term-frequency scaling, fitted separately
+within each (subfield, window) corpus, with cosine ranking. Three
+properties motivate this deliberately classical choice over neural
+embedding retrieval. First, *temporal safety*: the cutoff-time retriever
+may see nothing newer than the cutoff, and a term-statistics model
+fitted on the past window satisfies this by construction, whereas any
+pretrained embedding model carries post-cutoff language in its weights —
+the retrieval-side twin of the parametric-leakage channel documented for
+generation. Second, *determinism and auditability*: term weights are
+inspectable, every ranking reproduces exactly from the frozen corpus
+manifest, and no model version enters the provenance chain. Third, a
+*conservative bias with a known direction*: term-based retrieval
+under-matches paraphrase, which pushes labels toward not_addressed; we
+prefer an engagement floor whose direction is known to an unquantified
+error, and the threshold-starvation curve of section 6.7 makes the bound
+explicit. The cost — missed semantic matches, most severe for narrow
+object-level questions — is measured rather than hidden, via the
+imported evidence-graph questions and the specificity results.
+
+**Judging.** For each question with any plausible future evidence (top-1
+similarity above threshold; 956 of 980, the remaining 24 auto-labelled
+not_addressed), the judge receives the question, its cutoff date, and
+the top-8 retrieved future records — never the generation source. The
+rubric is two-stage per candidate before any outcome is assigned: each
+record is classified *direct* (investigates this question's own objects,
+quantities, or claimed relationship), *adjacent* (same topic only), or
+unrelated, with topical similarity explicitly insufficient for *direct*;
+`addressed` is then derived, requiring at least one direct candidate,
+after which the five-way status, premise status, supporting ids, a
+written rationale, and a confidence are recorded. All calls run at
+temperature 0 against a pinned model version and are cached, so the
+released labels regenerate exactly; rationales and supporting ids are
+released for audit. Throughout, the judge is treated as a measurement
+instrument with a measured error rate rather than as an oracle: its
+leniency direction, second-judge agreement, and the ceiling that
+agreement implies are quantified in section 6.7.
+
 ## 5. Models and evaluation protocol
 
 Baselines before models, interpretable models before ensembles: majority
@@ -488,7 +535,28 @@ should:
 | Weak/negative controls | 0.32 |
 | Paper 1 evidence-graph (n=10) | 0.20 |
 
-Controls land lowest — the dataset's sanity check passes. The direct-LLM
+Controls land lowest in aggregate — but the aggregate hides the
+dataset's most instructive split. Random claim pairings, the purest
+chance-directed baseline, are addressed at 8.7%: that, not the pooled
+32%, is the floor for chance-level engagement. Vague questions, by
+contrast, reach 0.850 — within three points of the direct-LLM rate and
+above every mined source — by being broad enough that some future paper
+always qualifies as direct:
+
+| Control subtype | n | Addressed | Mean direct papers |
+| --- | --- | --- | --- |
+| Random claim pairing | 80 | 0.087 | 0.17 |
+| Consensus challenge | 40 | 0.275 | 0.45 |
+| Untestable | 40 | 0.300 | 0.53 |
+| Vague | 40 | 0.850 | 2.62 |
+
+Coverage-style metrics are thus not merely gameable in principle; the
+worst-by-construction questions in the dataset game them in practice,
+which is why no engagement rate in this paper is interpreted without its
+source composition, and why the strict-bar analysis of section 6.7
+prices breadth explicitly.
+
+The direct-LLM
 rate of 0.88 should be read with care: the generating model may know,
 parametrically, which 2016-era questions became hot topics, an
 irreducible leakage channel we document rather than claim to eliminate
@@ -801,7 +869,9 @@ properties, but the predictive properties are about the question's
 *relationship to its community* — already-in-reviews, dense direct
 evidence, articulated alternatives — more than about the intrinsic
 virtues the literature on "good questions" celebrates (novelty, tension,
-specificity). Attention follows preparation. Whether that is how science
+specificity). Attention follows preparation — the
+behaviour the recognition-constrained foraging account of section 3
+predicts and explains. Whether that is how science
 *should* allocate attention is precisely the kind of question this
 dataset now lets others study: the rare premise-refuted cases, the
 slow-burning specific questions, and the unaddressed-but-well-formed
@@ -845,6 +915,33 @@ model) and Paper 2's decomposition are complementary defenses against
 the same threat, operating at the analysis and generation levels
 respectively.
 
+**Implications for system design.** The findings convert into three
+concrete practices. For *generator architectures*, they select an
+ordered pipeline: enumerate candidate evidence tensions at machine
+scale; rank them by the mining-time structure prior of section 6.6 —
+cluster breadth, explicit contradiction, quantification, cross-cutoff
+persistence — and verbalise only the survivors, since phrasing adds
+resolution but no foresight (Paper 2). Every ranking feature is
+computable before a question is written, so the prior adds no
+generation-time cost. For *evaluation design*, three practices transfer
+to any engagement-scored benchmark: include deliberately weak controls
+so that chance has a measured price (here pure chance costs 8.7%, not
+zero); price vagueness explicitly, because the worst-by-construction
+questions game coverage in practice and not only in principle; and
+publish judged metrics only alongside measured reliability and the
+noise ceiling it implies, without which an AUC or an addressed rate
+cannot be interpreted. For *recommendation*, the two strongest
+predictors — prior recognition and evidence density — are computable
+from a live corpus, so a research assistant could rank candidate
+questions by predicted uptake today. That capability carries a Goodhart
+warning the framework makes precise: predicted attention as an
+optimisation target would amplify exactly the conservatism it measures,
+recommending the already-recognised and making recognition
+self-fulfilling. A deployment that cares about value rather than
+popularity should pair the attention model with the refutation-channel
+indicators — quantified, persistent contradictions — which point at
+overturnable conclusions rather than at the crowd's path.
+
 ## 8. Limitations
 
 - **Abstract-level corpus.** Full texts are not used; tension and
@@ -881,6 +978,15 @@ respectively.
   questions cannot support the Task B taxonomy or H2/H5 as stated;
   the design document's projection that these classes need 2,000–5,000
   questions is confirmed empirically.
+- **The noise ceiling is model-based.** The AUC ceiling of section 6.7
+  assumes class-symmetric, independent judge errors, and neither
+  assumption is innocent. Both judges read the same retrieved
+  candidates, so their errors are plausibly positively correlated; for a
+  fixed observed agreement that implies *more* per-judge noise and a
+  *lower* true ceiling than reported, making the 83% skill fraction
+  conservative. Asymmetric class errors cut the other way. The scan over
+  error splits bounds the leverage of the symmetric assumption, but only
+  human adjudication could replace the model with a measurement.
 - **One domain.** Astronomy only; the cross-subfield transfers here are
   necessary but not sufficient evidence of cross-science generality.
 
@@ -892,12 +998,20 @@ to replace two common practices: scoring questions by how they sound,
 and validating question generators on single-digit case studies. At
 n=980 with strict blinded labeling, future scientific attention is
 predictable (AUC ≈ 0.71 out-of-time and out-of-domain) — and the robust
-predictors are community-relational, not rhetorical. Most pre-registered
+predictors are community-relational, not rhetorical. That number is 83%
+of the ceiling measured label noise permits, and the predictors are
+exactly those a recognition-constrained foraging account of attention
+allocation selects (section 3); the ceiling construction itself
+transfers to any study that scores open-ended outcomes with an
+imperfect judge. Most pre-registered
 mechanism hypotheses failed, which is the point: a dataset an order of
 magnitude larger than its predecessor makes intuitions testable, and
 most did not survive. The dataset, every prompt, every judge rationale,
 and the full pipeline are released for the community to reuse, audit,
-and extend to other sciences. A forward-looking test is already armed:
+and extend to other sciences; an extension to a second domain with
+harder outcome signals is in preparation (clinical oncology, where
+trial registrations and phase transitions are observable events rather
+than retrieval-bounded labels). A forward-looking test is already armed:
 Paper 2 v1.1's prospective instance — 200 questions from four
 generators, frozen 2026-08-17 with a pre-registered 2027–2030 scoring
 window — will let the predictors learned here be evaluated against a
